@@ -1,10 +1,19 @@
 # binaries, configuration, etc.
 out/*
 productctl
-.vscode
 !internal/cmd/productctl
 *.env
 *completion*
 
 # python virtual environment used for schema generation
 ve/
+
+# editor and IDE paraphernalia
+.idea
+*.swp
+*.swo
+*~
+.vscode
+
+# MacOS related artifacts
+.DS_Store
