@@ -1,0 +1,3 @@
+gql
+graphql-core
+gql[aiohttp]

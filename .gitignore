@@ -1,0 +1,10 @@
+# binaries, configuration, etc.
+out/*
+productctl
+.vscode
+!internal/cmd/productctl
+*.env
+*completion*
+
+# python virtual environment used for schema generation
+ve/

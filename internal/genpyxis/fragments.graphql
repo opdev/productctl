@@ -1,0 +1,81 @@
+fragment ProductListingSupportedFields on ProductListing {
+  _id
+  name
+  org_id
+  last_update_date
+  deleted
+  published
+  type
+  descriptions {
+    long
+    short
+  }
+	contacts {
+    email_address
+    type
+  }
+  creation_date
+  cert_projects
+  support {
+    description
+    email_address
+    phone_number
+    url
+  }
+  legal {
+    description
+    license_agreement_url
+    privacy_policy_url
+  }
+}
+
+fragment ComponentSupportedFields on CertificationProject {
+  _id
+  name
+  org_id
+  type
+  project_status
+  certification_status
+  creation_date
+  last_update_date
+  helm_chart {
+    chart_name
+    repository
+    short_description
+    long_description
+    github_usernames
+    distribution_method
+  }
+  container {
+    isv_pid
+    distribution_method
+    type
+    short_description
+    repository_name
+    repository_description
+  }
+  contacts {
+    email_address
+    type
+  }
+}
+
+fragment MutateProductListingCommonResponse on ProductListingResponse {
+  data {
+    ...ProductListingSupportedFields
+  }
+  error {
+    status
+    detail
+  }
+}
+
+fragment MutateComponentCommonResponse on CertificationProjectResponse {
+  data {
+    ...ComponentSupportedFields
+  }
+  error {
+    detail
+    status
+  }
+}
