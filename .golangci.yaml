@@ -1,0 +1,40 @@
+run:
+  # Default timeout is 1m, up to give more room
+  timeout: 4m
+linters:
+  enable:
+    - asciicheck
+    - unused
+    - depguard
+    - gofumpt
+    - goimports
+    # - importas
+    - revive
+    - misspell
+    - stylecheck
+    - tparallel
+    - unconvert
+    - unparam
+    - whitespace
+linters-settings:
+  stylecheck:
+    dot-import-whitelist:
+      - github.com/onsi/gomega
+      - github.com/onsi/ginkgo
+      - github.com/onsi/ginkgo/v2
+  goimports:
+    local-prefixes: github.com/opdev/productctl
+  depguard:
+    rules:
+      main:
+        list-mode: lax
+        deny:
+        - pkg: "gopkg.in/yaml"
+          desc: "use sigs.k8s.io/yaml"
+        - pkg: "github.com/hasura/go-graphql-client"
+          desc: "use github.com/Khan/genqlient[/graphql]"
+        - pkg: "github.com/shurcooL/graphql"
+          desc: "use github.com/Khan/genqlient[/graphql]"
+output:
+  formats:
+    - format: tab

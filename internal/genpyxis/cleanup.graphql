@@ -1,0 +1,36 @@
+# These operations may not make it into the final application.
+# They're just here to aid in cleanup during development.
+
+mutation ArchiveComponent($id: ObjectIDFilterScalar) {
+  update_certification_project(id: $id, input: {
+    project_status: "archived"
+  })
+  {
+    data {
+      _id
+      last_update_date
+      project_status
+    } 
+    error {
+      status
+      detail
+    }
+  }
+}
+
+mutation DeleteProduct($id: ObjectIDFilterScalar) {
+  update_product_listing(id: $id, input: {
+    deleted: true
+  })
+  {
+    data {
+      _id
+      deleted
+      last_update_date
+    }
+    error {
+      status
+      detail
+    }
+  }
+}

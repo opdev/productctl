@@ -1,0 +1,54 @@
+# @genqlient(omitempty: true)
+mutation NewProductListing(
+  $new: ProductListingInput
+) {
+  # @genqlient(flatten: true)
+  create_product_listing(input: $new) {
+    ...MutateProductListingCommonResponse
+  }
+}
+
+# @genqlient(omitempty: true)
+mutation ApplyProductListing(
+  $id: ObjectIDFilterScalar,
+  $update: ProductListingInput!
+){
+  # @genqlient(flatten: true)
+  update_product_listing(id: $id, input: $update) {
+    ...MutateProductListingCommonResponse
+  }
+}
+
+# @genqlient(omitempty: true)
+mutation NewComponent(
+  $new: CertificationProjectInput!
+) {
+  # @genqlient(flatten: true)
+  create_certification_project(input: $new) {
+    ...MutateComponentCommonResponse
+  }
+}
+
+mutation ApplyComponent($componentID: ObjectIDFilterScalar, $updated: CertificationProjectInput) {
+  # @genqlient(flatten: true)
+  update_certification_project(
+    id: $componentID,
+    input: $updated
+) {
+  ...MutateComponentCommonResponse  
+  }
+}
+
+mutation SetComponentsForProduct($productID: ObjectIDFilterScalar, $componentIDs: [ObjectID]) {
+  update_product_listing(id: $productID, input: {cert_projects: $componentIDs}) {
+    data {
+      _id
+      cert_projects
+      last_update_date
+    }
+    error {
+      status
+      detail
+    }
+  }
+}

@@ -1,0 +1,128 @@
+
+## Query commented as it's not currently in use.
+# query FindSimilarProductListings($name: String!, $orgID: Int!, $page: Int!, $pageSize: Int!) {
+#   find_product_listings(
+#     filter: {and: [
+#       {org_id: {eq: $orgID}}
+#       {name: {iregex: $name}}
+#       {deleted: {eq: false}}
+#       ]
+#     }
+#     page_size: $pageSize
+#     page: $page
+#   ) {
+#     data {
+#       name
+#       _id
+#       creation_date
+#       type
+#       org_id
+#       published
+#     }
+#     error {
+#       detail
+#       status
+#     }
+#     page_size
+#     page
+#     total
+#   }
+# }
+
+query MyProducts($orgID: Int, $page: Int!, $pageSize: Int!) {
+  find_product_listings(
+    filter: {and: [
+      {org_id: {eq: $orgID}}
+      {deleted: {eq: false}}
+    ]}
+    page_size: $pageSize
+    page: $page
+    sort_by: {
+      field: "last_update_date"
+      order: DESC
+    }
+  ) {
+    # @genqlient(flatten: true)
+    data {
+      ...ProductListingSupportedFields
+    }
+    error {
+      detail
+      status
+    }
+    page
+    page_size
+    total
+  }
+}
+
+query MyProjects($orgID: Int, $page: Int!, $pageSize: Int!) {
+  find_vendor_certification_projects_by_org_id(
+    org_id:$orgID
+    page_size: $pageSize
+    page: $page
+    sort_by: {
+      field: "last_update_date"
+      order: DESC
+    }
+    filter: {and: [
+      {project_status: {ne: "archived"}}
+    ]}
+  ) {
+    # @genqlient(flatten: true)
+    data {
+      ...ComponentSupportedFields
+    }
+    error {
+      detail
+      status
+    }
+    page
+    page_size
+    total
+  }
+}
+
+query ProductByID($productID: ObjectIDFilterScalar) {
+  get_product_listing(id: $productID) {
+    # Note: Flatten here is used so that we don't get a generated "Response"
+    # type that contains the ProductListingSupportedFields, just the fields
+    # themselves. It's necessary because a generated response would contain the
+    # fragment as its type, but with JSON marshaling tag of `"-"` which means we
+    # can't marshal it.
+    #
+    # @genqlient(flatten: true)
+    data {
+      ...ProductListingSupportedFields
+    }
+    error {
+      status
+      detail
+    }
+  }
+}
+
+query ComponentsForListing(
+  $productID: ObjectIDFilterScalar,
+  $page: Int!,
+  $pageSize: Int!
+)
+{
+  find_product_listing_certification_projects(
+    id: $productID
+    page: $page
+    page_size: $pageSize
+  ) {
+    # @genqlient(flatten: true)
+    data {
+      ...ComponentSupportedFields
+    }
+    error {
+      status
+      detail
+    }
+    page
+    page_size
+    total
+  }
+}

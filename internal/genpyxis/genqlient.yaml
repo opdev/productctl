@@ -1,0 +1,44 @@
+# Default genqlient config; for full documentation see:
+# https://github.com/Khan/genqlient/blob/main/docs/genqlient.yaml
+schema: schema.graphql
+operations:
+- queries.graphql
+- mutations.graphql
+- cleanup.graphql
+- fragments.graphql
+generated: generated.go
+bindings:
+  # Mapping Pyxis GraphQL types to Golang types.
+  #
+  # The genqlient generator will often complain if there's a type that's present
+  # in the Pyxis schema definition that isn't accounted for implicitly in Golang
+  # types, and ask developers for a mapping.
+  ObjectIDFilterScalar:
+    type: string
+  ObjectID:
+    type: string
+  DateTime:
+    type: "*time.Time"
+  Email:
+    type: string
+  OpenPGPEncrypted:
+    type: string
+  URI:
+    type: string 
+  Base64EncodedString:
+    type: string
+  SemVer:
+    type: string
+  LowercaseString:
+    type: string
+# use_struct_references is enabled to allow us to use interface implementations
+# from generated code.
+#
+# Exact use case was ProductListingInput.Contacts, which is
+# []ContactsItemsInput. Getter methods are bound *ContactsItemsInput which means
+# iterators against this slice would need to dereference in order to implement
+# interfaces.
+#
+# Assuming a struct reference simplifies some cases where omitempty needs to be
+# set, too.
+use_struct_references: true
