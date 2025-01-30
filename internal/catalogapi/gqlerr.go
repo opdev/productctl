@@ -1,8 +1,6 @@
 package catalogapi
 
-import (
-	"fmt"
-)
+import "fmt"
 
 // ParseGraphQLResponseError returns a Go error for the input backendErr.
 func ParseGraphQLResponseError(backendErr GraphQLResponseError) error {

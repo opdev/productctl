@@ -1,8 +1,6 @@
 package transport
 
-import (
-	"net/http"
-)
+import "net/http"
 
 // Ensure the tranport implements http.RoundTripper.
 var _ http.RoundTripper = &AddUserAgent{}
