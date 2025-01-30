@@ -1,8 +1,6 @@
 package resource
 
-import (
-	"time"
-)
+import "time"
 
 type ProductListingType = string
 
