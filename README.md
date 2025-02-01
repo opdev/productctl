@@ -116,7 +116,7 @@ The **productctl** tool can read the discover.json produced by
 **[discover-workload](https://github.com/opdev/discover-workload)**.
 
 ```
-productctl new-product --from-discovery-json /path/to/discovery.json
+productctl new-product my-product.yaml --from-discovery-json /path/to/discovery.json
 ```
 
 Before doing so, the **discover.json** should be modified to ensure it contains
