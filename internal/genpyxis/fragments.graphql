@@ -48,11 +48,14 @@ fragment ComponentSupportedFields on CertificationProject {
   }
   container {
     isv_pid
-    distribution_method
     type
     short_description
+    registry
+    repository
     repository_name
     repository_description
+    distribution_method
+    hosted_registry
   }
   contacts {
     email_address
