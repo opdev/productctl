@@ -13,6 +13,7 @@ type ContainerComponent struct {
 	SupportPlatforms      []string                      `json:"support_platforms,omitempty"`
 	Type                  ContainerComponentType        `json:"type,omitempty" jsonschema:"enum=container,enum=operator bundle image"`
 	GithubUsernames       []string                      `json:"github_usernames,omitempty"`
+	HostedRegistry        *bool                         `json:"hosted_registry,omitempty"`
 }
 
 type ContainerDistributionMethod = string

@@ -658,13 +658,24 @@ func (v *ComponentSupportedFieldsContactsCertProjectContacts) GetType() string {
 type ComponentSupportedFieldsContainerCertProjectContainer struct {
 	// ID of the project in for ISV repositories.
 	Isv_pid string `json:"isv_pid"`
-	// Distribution method.
-	Distribution_method string `json:"distribution_method"`
 	// Container type.
 	// Field is required, if project type is 'Container', and the field is immutable for Partners after creation.
 	Type string `json:"type"`
 	// Short description of the container.
 	Short_description string `json:"short_description"`
+	// Hostname of the registry where the repository can be accessed.
+	// Examples: registry.company.com assumes the default port, 443. registry.company.com:5000 repository path with optional port specified.
+	// It is only applicable for projects with an 'external' distribution method.
+	Registry string `json:"registry"`
+	// Path to the container repository as found in the registry.
+	//
+	// Examples:
+	// path/to/repository
+	// repository
+	//
+	// This field can only be edited when there are no published containers.
+	// It is only applicable for projects with an 'external' distribution method.
+	Repository string `json:"repository"`
 	// This should represent your product (or the component if your product consists of multiple containers)
 	// and a major version. For example, you could use names like jboss-server7, or agent5.
 	//
@@ -674,15 +685,14 @@ type ComponentSupportedFieldsContainerCertProjectContainer struct {
 	// The repository description is displayed on the container
 	// catalog repository overview page.
 	Repository_description string `json:"repository_description"`
+	// Distribution method.
+	Distribution_method string `json:"distribution_method"`
+	// Flag that indicates that project is using Red Hat hosted registry.
+	Hosted_registry bool `json:"hosted_registry"`
 }
 
 // GetIsv_pid returns ComponentSupportedFieldsContainerCertProjectContainer.Isv_pid, and is useful for accessing the field via an interface.
 func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetIsv_pid() string { return v.Isv_pid }
-
-// GetDistribution_method returns ComponentSupportedFieldsContainerCertProjectContainer.Distribution_method, and is useful for accessing the field via an interface.
-func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetDistribution_method() string {
-	return v.Distribution_method
-}
 
 // GetType returns ComponentSupportedFieldsContainerCertProjectContainer.Type, and is useful for accessing the field via an interface.
 func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetType() string { return v.Type }
@@ -690,6 +700,16 @@ func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetType() string
 // GetShort_description returns ComponentSupportedFieldsContainerCertProjectContainer.Short_description, and is useful for accessing the field via an interface.
 func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetShort_description() string {
 	return v.Short_description
+}
+
+// GetRegistry returns ComponentSupportedFieldsContainerCertProjectContainer.Registry, and is useful for accessing the field via an interface.
+func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetRegistry() string {
+	return v.Registry
+}
+
+// GetRepository returns ComponentSupportedFieldsContainerCertProjectContainer.Repository, and is useful for accessing the field via an interface.
+func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetRepository() string {
+	return v.Repository
 }
 
 // GetRepository_name returns ComponentSupportedFieldsContainerCertProjectContainer.Repository_name, and is useful for accessing the field via an interface.
@@ -700,6 +720,16 @@ func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetRepository_na
 // GetRepository_description returns ComponentSupportedFieldsContainerCertProjectContainer.Repository_description, and is useful for accessing the field via an interface.
 func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetRepository_description() string {
 	return v.Repository_description
+}
+
+// GetDistribution_method returns ComponentSupportedFieldsContainerCertProjectContainer.Distribution_method, and is useful for accessing the field via an interface.
+func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetDistribution_method() string {
+	return v.Distribution_method
+}
+
+// GetHosted_registry returns ComponentSupportedFieldsContainerCertProjectContainer.Hosted_registry, and is useful for accessing the field via an interface.
+func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetHosted_registry() bool {
+	return v.Hosted_registry
 }
 
 // ComponentSupportedFieldsHelm_chartCertProjectHelmChart includes the requested fields of the GraphQL type CertProjectHelmChart.
@@ -2332,11 +2362,14 @@ fragment ComponentSupportedFields on CertificationProject {
 	}
 	container {
 		isv_pid
-		distribution_method
 		type
 		short_description
+		registry
+		repository
 		repository_name
 		repository_description
+		distribution_method
+		hosted_registry
 	}
 	contacts {
 		email_address
@@ -2527,11 +2560,14 @@ fragment ComponentSupportedFields on CertificationProject {
 	}
 	container {
 		isv_pid
-		distribution_method
 		type
 		short_description
+		registry
+		repository
 		repository_name
 		repository_description
+		distribution_method
+		hosted_registry
 	}
 	contacts {
 		email_address
@@ -2726,11 +2762,14 @@ fragment ComponentSupportedFields on CertificationProject {
 	}
 	container {
 		isv_pid
-		distribution_method
 		type
 		short_description
+		registry
+		repository
 		repository_name
 		repository_description
+		distribution_method
+		hosted_registry
 	}
 	contacts {
 		email_address
@@ -2804,11 +2843,14 @@ fragment ComponentSupportedFields on CertificationProject {
 	}
 	container {
 		isv_pid
-		distribution_method
 		type
 		short_description
+		registry
+		repository
 		repository_name
 		repository_description
+		distribution_method
+		hosted_registry
 	}
 	contacts {
 		email_address
