@@ -70,6 +70,8 @@ directive @meta_add_obj on FIELD_DEFINITION | OBJECT
 
 directive @data_add_automatic_fields(action: String, schema: String) on FIELD_DEFINITION | OBJECT
 
+directive @data_add_history_fields(action: String, schema: String) on FIELD_DEFINITION | OBJECT
+
 directive @data_compression(schema: String, action: String) on FIELD_DEFINITION | OBJECT
 
 directive @data_decompression_original(schema: String) on FIELD_DEFINITION | OBJECT
@@ -281,6 +283,21 @@ type Query {
 
   """Get the certification project for a repository."""
   get_repository_project_certification_by_registry_path(registry: String, repository: String): CertificationProjectResponse
+
+  """Get a repository by ID."""
+  repository(id: ObjectIDFilterScalar): ContainerRepositoryFederated
+
+  """Get all repositories."""
+  repositories(sortBy: [SortBy], page: Int = 0, first: Int = 50, filter: ContainerRepositoryFilter): ContainerRepositoryFederatedConnection
+
+  """Get a repository by registry and path (product line/image name)."""
+  repository_by_registry(registry: String, repository: String): ContainerRepositoryFederated
+
+  """Get all repositories belonging to product listing."""
+  repositories_for_product_listing(id: ObjectIDFilterScalar, sortBy: [SortBy], page: Int = 0, first: Int = 50, filter: ContainerRepositoryFilter): ContainerRepositoryFederatedConnection
+
+  """Get all container repositories owned by the team."""
+  repositories_by_team_id(id: String, sortBy: [SortBy], page: Int = 0, first: Int = 50, filter: ContainerRepositoryFilter): ContainerRepositoryFederatedConnection
 
   """Get a vendor by ID."""
   get_vendor(id: ObjectIDFilterScalar): ContainerVendorResponse
@@ -542,6 +559,11 @@ type ContainerImage {
 
   """The date when the entry was last updated."""
   last_update_date: DateTime
+
+  """
+  Red Hat Org ID / account_id from Red Hat SSO. Also corresponds to company_org_id in Red Hat Connect.
+  """
+  org_id: Int
   edges: ContainerImageEdges
 }
 
@@ -3774,6 +3796,7 @@ input ContainerImageFilter {
   _id: ObjectIDFilter
   creation_date: DateTimeFilter
   last_update_date: DateTimeFilter
+  org_id: IntFilter
   eq: NULL
   ne: NULL
   and: [ContainerImageFilter]
@@ -4626,6 +4649,9 @@ type ContainerImageEdges {
 
   """Get image requests using its image id."""
   requests(id: ObjectIDFilterScalar, page: Int = 0, page_size: Int = 50, sort_by: [SortBy], filter: CertProjectImageRequestFilter): CertProjectImageRequestPaginatedResponse
+
+  """Get certification project using Red Hat Connect project ID."""
+  cert_project(pid: String): CertificationProjectResponse
 }
 
 type ContainerImageRPMManifestResponse {
@@ -5609,6 +5635,199 @@ input ContainerSignatureExternalFilter {
   not: ContainerSignatureExternalFilter
 }
 
+"""Contains metadata associated with Red Hat and ISV repositories"""
+type ContainerRepositoryFederated {
+  """The application categories (types)."""
+  application_categories: [String]
+
+  """
+  Contains unique list of all container architectures for the given repository.
+  """
+  architectures: [String]
+
+  """Denote which tags to be used for auto-rebuilding processes."""
+  auto_rebuild_tags: [String]
+
+  """
+  What build categories does this fall into, such as standalone, s2i builder, etc.
+  """
+  build_categories: [String]
+
+  """
+  Flag indicating whether the repository has opted-in to auto-release auto-built images.
+  """
+  can_auto_release_cve_rebuild: Boolean
+  cdn_base_url: URI
+
+  """
+  Capture and provide an inventory of grades corresponding to the tags in the relevant contents stream.
+  """
+  content_stream_grades: [RepositoryContentStreamGrades]
+
+  """
+  Capture and provide an inventory of tags corresponding to the content streams.
+  """
+  content_stream_tags: [String]
+
+  """Description of the repository."""
+  description: String
+  display_data: RepositoryDisplayData
+
+  """
+  Links to marketing and doc collateral including categorization (solution brief, white paper, demo video, etc.) supposed to be displayed on the product page (NOT documentation tab on image overview tab).
+  """
+  documentation_links: [RepositoryDocumentationLink]
+
+  """
+  Flag indicating whether the repository has opted-in to entitlements to determine needed subscriptions in order to be able to pull repository images.
+  """
+  entitlement_enabled: Boolean
+
+  """
+  List of engineering IDs associated with the repository. The list represents a needed subscription to pull the repository images.
+  """
+  engineering_ids: [String]
+
+  """Flag indicating which team has opted-in to use the File Based Catalog."""
+  fbc_opt_in: Boolean
+  eol_date: DateTime
+
+  """Date until the freshness grades for this repository are unknown."""
+  freshness_grades_unknown_until_date: DateTime
+
+  """Defines  whether a repository contains multiple image streams."""
+  includes_multiple_content_streams: Boolean
+
+  """Designates whether a repository is community-supported."""
+  is_community_supported: Boolean
+
+  """ID of the project in for ISV repositories."""
+  isv_pid: String
+
+  """
+  Determine what registry should be used as source of repository metadata (e.g. Pulp or Quay).
+  """
+  metadata_source: String
+
+  """Set of metrics about the repository."""
+  metrics: RepositoryMetrics
+
+  """Namespace of the repository."""
+  namespace: String
+
+  """Repository is intended for non-production use only."""
+  non_production_only: Boolean
+  object_type: String
+
+  """
+  Indicates if images in this repository are allowed to run super-privileged.
+  """
+  privileged_images_allowed: Boolean
+
+  """ID of the project in PRM. Only for ISV repositories."""
+  prm_project_id: String
+
+  """List of unique identifiers for the product listings."""
+  product_listings: [ObjectID]
+
+  """Map repositories to specific product versions."""
+  product_versions: [String]
+  protected_for_pull: Boolean
+
+  """
+  Indicates whether the repository requires subscription or other access restrictions for search.
+  """
+  protected_for_search: Boolean
+
+  """
+  Indicates that the repository does not have any images in it or has been deleted.
+  """
+  published: Boolean
+
+  """Hostname of the registry where the repository can be accessed."""
+  registry: String
+
+  """
+  Consumed by the Registry Proxy so that it can route users to the proper backend registry (e.g. Pulp or Quay).
+  """
+  registry_target: String
+
+  """The release categories of a repository."""
+  release_categories: [String]
+
+  """Defines repository to point to in case this one is deprecated."""
+  replaced_by_repository_name: String
+
+  """Combination of image repository and namespace."""
+  repository: String
+
+  """
+  Flag indicating whether (false) the repository is published on the legacy registry (registry.access.redhat.com), or (true) can only be published to registry.redhat.io.
+  """
+  requires_terms: Boolean
+
+  """Describes what the image can be run on."""
+  runs_on: RepositoryRunsOn
+
+  """
+  Flag indicating whether images associated with this repo are included in workflows where non-binary container images are published alongside their binary counterparts.
+  """
+  source_container_image_enabled: Boolean
+
+  """The support levels of a repository."""
+  support_levels: [String]
+
+  """Total size of all images in bytes."""
+  total_size_bytes: Int64
+
+  """Total size of all uncompressed images in bytes."""
+  total_uncompressed_size_bytes: Int64
+
+  """
+  When populated this field will override the content on the 'get this image' tab in red hat container catalog.
+  """
+  ui_get_this_image_override: String
+
+  """
+  Flag indicating whether the 'latest' tag for an image should be pulled.
+  """
+  use_latest: Boolean
+
+  """Label of the vendor that owns this repository."""
+  vendor_label: String
+
+  """Marketplace related information."""
+  marketplace: ContainerRepositoryMarketplace
+
+  """MongoDB unique _id"""
+  _id: ObjectID
+
+  """
+  The date when the entry was created. Value is created automatically on creation.
+  """
+  creation_date: DateTime
+
+  """The date when the entry was last updated."""
+  last_update_date: DateTime
+}
+
+type ContainerRepositoryFederatedConnection {
+  pageInfo: PageInfo!
+  totalCount: Int
+  edges: [ContainerRepositoryFederatedEdge]
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+type ContainerRepositoryFederatedEdge {
+  node: ContainerRepositoryFederated
+}
+
 type ContainerImageVulnerabilityResponse {
   data: ContainerImageVulnerability
   error: ResponseError
@@ -5752,6 +5971,11 @@ type ProductListingFederated {
   """
   last_published_certification_date: DateTime
 
+  """
+  Field resolves PublicProductListingFunctionalInfo in federated schema. It is used to provide information about the product listing functional certification.
+  """
+  functional_info: PublicProductListingFunctionalInfo
+
   """Data about all related approved Red Hat validations."""
   product_validations_data: ProductValidationsData
 
@@ -5772,17 +5996,15 @@ type ProductListingFederated {
   last_update_date: DateTime
 }
 
+type PublicProductListingFunctionalInfo {
+  """Product listing ID"""
+  productListingId: String
+}
+
 type ProductListingFederatedConnection {
   pageInfo: PageInfo!
   totalCount: Int
   edges: [ProductListingFederatedEdge]
-}
-
-type PageInfo {
-  endCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
 }
 
 type ProductListingFederatedEdge {
@@ -6166,6 +6388,11 @@ input ContainerImageInput {
 
   """The date when the entry was last updated."""
   last_update_date: DateTime
+
+  """
+  Red Hat Org ID / account_id from Red Hat SSO. Also corresponds to company_org_id in Red Hat Connect.
+  """
+  org_id: Int
 }
 
 """Brew Build System related metadata."""
@@ -7473,4 +7700,4 @@ type _Service {
 
 scalar _FieldSet
 
-union _Entity = ProductListingFederated
+union _Entity = ProductListingFederated | PublicProductListingFunctionalInfo
