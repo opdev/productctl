@@ -17,6 +17,9 @@ var ErrDuplicateComponentName = errors.New("duplicate component name")
 // declarations. DiscoveredImages are treated as container components. The
 // specifics of the container component declaration are assumed, and left to the
 // user to change before use.
+//
+// TODO: This function may need renaming, as the data produced is not well
+// represented by the function's identifier.
 func ParseDiscoveryManifest(
 	manifest discovery.Manifest,
 ) ([]*resource.Component, error) {
@@ -30,7 +33,7 @@ func ParseDiscoveryManifest(
 	for _, image := range manifest.DiscoveredImages {
 		c := resource.Component{
 			Container: &resource.ContainerComponent{
-				DistributionMethod: resource.ContainerDistributionRHCC,
+				DistributionMethod: resource.ContainerDistributionExternal,
 				OSContentType:      resource.ContentTypeUBI,
 				Type:               resource.ContainerTypeContainer,
 			},
