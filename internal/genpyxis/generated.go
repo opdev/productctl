@@ -689,6 +689,8 @@ type ComponentSupportedFieldsContainerCertProjectContainer struct {
 	Distribution_method string `json:"distribution_method"`
 	// Flag that indicates that project is using Red Hat hosted registry.
 	Hosted_registry bool `json:"hosted_registry"`
+	// OS Content Type.
+	Os_content_type string `json:"os_content_type"`
 }
 
 // GetIsv_pid returns ComponentSupportedFieldsContainerCertProjectContainer.Isv_pid, and is useful for accessing the field via an interface.
@@ -730,6 +732,11 @@ func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetDistribution_
 // GetHosted_registry returns ComponentSupportedFieldsContainerCertProjectContainer.Hosted_registry, and is useful for accessing the field via an interface.
 func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetHosted_registry() bool {
 	return v.Hosted_registry
+}
+
+// GetOs_content_type returns ComponentSupportedFieldsContainerCertProjectContainer.Os_content_type, and is useful for accessing the field via an interface.
+func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetOs_content_type() string {
+	return v.Os_content_type
 }
 
 // ComponentSupportedFieldsHelm_chartCertProjectHelmChart includes the requested fields of the GraphQL type CertProjectHelmChart.
@@ -2370,6 +2377,7 @@ fragment ComponentSupportedFields on CertificationProject {
 		repository_description
 		distribution_method
 		hosted_registry
+		os_content_type
 	}
 	contacts {
 		email_address
@@ -2568,6 +2576,7 @@ fragment ComponentSupportedFields on CertificationProject {
 		repository_description
 		distribution_method
 		hosted_registry
+		os_content_type
 	}
 	contacts {
 		email_address
@@ -2770,6 +2779,7 @@ fragment ComponentSupportedFields on CertificationProject {
 		repository_description
 		distribution_method
 		hosted_registry
+		os_content_type
 	}
 	contacts {
 		email_address
@@ -2851,6 +2861,7 @@ fragment ComponentSupportedFields on CertificationProject {
 		repository_description
 		distribution_method
 		hosted_registry
+		os_content_type
 	}
 	contacts {
 		email_address
