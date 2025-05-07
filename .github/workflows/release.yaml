@@ -1,0 +1,56 @@
+name: Release Binaries
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+  push:
+    branches: [ ghactions ]
+
+env:
+  DEFAULT_BIN_NAME: productctl
+
+jobs:
+  binaries:
+    strategy:
+      matrix:
+        os: 
+        - ubuntu-latest # amd64
+        - ubuntu-22.04-arm # arm64
+        - macos-latest # arm64
+        - macos-13 # amd64
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: go.mod
+
+    - name: Set RELEASE_TAG from GITHUB_REF
+      if: ${{ github.event_name == 'release' }}
+      run: |
+        echo "Event is: ${{ github.event_name }}"
+        echo RELEASE_TAG=$(echo $GITHUB_REF | cut -d '/' -f 3) | tee $GITHUB_ENV
+
+    - name: Build Binary
+      # We do not regenerate assets on releases. We use what is in repo.
+      # For this reason, we use `make bin` and not `make build`.
+      env:
+        BIN_NAME: ${{ env.DEFAULT_BIN_NAME }}
+        BIN_VERSION: ${{ env.RELEASE_TAG || 'unknown' }}
+      run: |
+        BIN_FILE="${BIN_NAME}" \
+        BIN_VERSION="${BIN_VERSION}" \
+          make bin
+        mv -v "${BIN_NAME}" "${BIN_NAME}-$(go env GOOS)-$(go env GOARCH)"
+        echo FINAL_BIN_NAME="${BIN_NAME}-$(go env GOOS)-$(go env GOARCH)" | tee $GITHUB_ENV
+
+    - name: Add to release
+      if: ${{ github.event_name == 'release' }}
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        gh release upload "${{ env.RELEASE_TAG }}" "${{ env.FINAL_BIN_NAME }}"

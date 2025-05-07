@@ -1,4 +1,3 @@
-BINFILE ?= productctl
 GENERATED_PYXIS_CODE ?= internal/genpyxis/generated.go
 OUT_DIR = $(shell pwd)/out
 
@@ -8,14 +7,23 @@ default: build
 .PHONY: build
 build: generate bin
 
+BIN_FILE    ?= productctl
+BIN_VERSION ?= unknown
+BIN_COMMIT  = $(shell git rev-parse HEAD)
+
 # Just build the binary.
 .PHONY: bin
 bin:
-	go build -o $(BINFILE) ./internal/cmd/productctl
+	CGO_ENABLED=0 go build \
+		-o $(BIN_FILE) \
+		-ldflags "\
+			-X github.com/opdev/productctl/internal/version.commit=$(BIN_COMMIT) \
+			-X github.com/opdev/productctl/internal/version.version=$(BIN_VERSION)" \
+		./internal/cmd/productctl
 
 .PHONY: clean
 clean:
-	rm -vf $(BINFILE)
+	rm -vf $(BIN_FILE)
 	rm -vf $(GENERATED_PYXIS_CODE)
 	rm -vrf $(OUT_DIR)
 
