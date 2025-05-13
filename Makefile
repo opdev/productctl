@@ -65,6 +65,19 @@ fmt: install.gofumpt
 tidy:
 	go mod tidy
 
+### Fail if git diff detects a change. Useful for CI.
+.PHONY: diff-check
+diff-check:
+	git diff --exit-code
+
+.PHONY: ci.fmt
+ci.fmt: fmt diff-check
+	echo "=> ci.fmt done"
+
+.PHONY: ci.tidy
+ci.tidy: tidy diff-check
+	echo "=> ci.tidy done"
+
 ### Installing Developer Tools
 # gofumpt
 GOFUMPT = $(OUT_DIR)/gofumpt

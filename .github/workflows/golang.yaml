@@ -1,13 +1,11 @@
-name: Check PR
+name: Golang
 
 on:
-  pull_request:
-    branches:
-    - main
-    - release-*
+  workflow_call: {}
+  workflow_dispatch: {}
 
 jobs:
-  build:
+  sanity:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -18,19 +16,19 @@ jobs:
         go-version-file: go.mod
 
     - name: Tidy
-      run: make tidy
+      run: make ci.tidy
 
     - name: Vet
       run: make vet
 
     - name: Format
-      run: make fmt
+      run: make ci.fmt
 
-    - name: Run golangci linting checks
+    - name: Lint
       run: make lint
 
-  #  - name: Test
-  #    run: make cover
+    - name: Test
+      run: make cover
 
   #  - name: Coveralls
   #    uses: coverallsapp/github-action@v2
@@ -38,5 +36,5 @@ jobs:
   #      github-token: ${{ secrets.GITHUB_TOKEN }}
   #      file: coverage.out
 
-    - name: Build a binary
+    - name: Build
       run: make build
