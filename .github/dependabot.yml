@@ -1,13 +1,13 @@
-# dependabot config
-
 version: 2
 updates:
-  - package-ecosystem: "gomod"
+  - package-ecosystem: gomod
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: daily
+    groups:
+      golang:
+        patterns: ['*']
   - package-ecosystem: github-actions
-    directory: "/"
+    directory: "/.github"
     schedule:
-      interval: "weekly"
-
+      interval: weekly
