@@ -47,21 +47,16 @@ Usage:
   productctl [command]
 
 Available Commands:
-  alpha            Alpha commands that may be removed or modified at any point
-  apply-product    Apply changes to Partner product listings from the input file.
-  completion       Generate the autocompletion script for the specified shell
-  fetch-product    Get a pre-existing product listing
-  help             Help about any command
-  new-product      Start building a new product listing.
-  sanitize-product Cleans declaration for re-use and emits to stdout
-  version          Prints the version information
+  alpha       Experimental commands subject to removal or change at any time
+  completion  Generate the autocompletion script for the specified shell
+  help        Help about any command
+  product     Manage your Product Listing
+  version     Prints the version information
 
 Flags:
-      --custom-endpoint string   Define a custom API endpoint. Supersedes predefined environment values like "prod" if set
-      --env string               The catalog API environment to use. Choose from stage, prod (default "prod")
-  -h, --help                     help for productctl
-      --log-level string         The verbosity of the tool itself. Ex. error, warn, info, debug (default "info")
-  -v, --version                  version for productctl
+  -h, --help               help for productctl
+      --log-level string   The verbosity of the tool itself. Ex. error, warn, info, debug (default "info")
+  -v, --version            version for productctl
 
 Use "productctl [command] --help" for more information about a command.
 ```
@@ -71,7 +66,7 @@ Use "productctl [command] --help" for more information about a command.
 The **productctl** tool can be used populate a brand new product listing.
 
 ```bash
-productctl new-product my-product.yaml
+productctl product create my-product.yaml
 ```
 
 This will produce a Kubernetes-like declaration that can be used to configure
@@ -97,14 +92,14 @@ schema](https://catalog.redhat.com/api/containers/docs/objects/ProductListing.ht
 can be set in this declaration. Try out the following alpha feature to generate
 a resource schemajson that may be used via LSP in your editor of choice.
 
-```
+```bash
 productctl alpha lsp-completion > resource.schema.json
 ```
 
 Use the **apply-product** subcommand to apply your declaration to your partner account
 
-```
-productctl apply-product my-product.yaml
+```bash
+productctl product apply my-product.yaml
 ```
 
 If you log into productctl, you should then see your product listing.
@@ -115,8 +110,8 @@ Continue iterating on your listing until it is ready for publishing.
 The **productctl** tool can read the discover.json produced by
 **[discover-workload](https://github.com/opdev/discover-workload)**.
 
-```
-productctl new-product my-product.yaml --from-discovery-json /path/to/discovery.json
+```bash
+productctl product create my-product.yaml --from-discovery-json /path/to/discovery.json
 ```
 
 Before doing so, the **discover.json** should be modified to ensure it contains
@@ -154,8 +149,8 @@ with:
 
 With your components defined, apply your product again.
 
-```
-productctl apply-product my-product.yaml
+```bash
+productctl product apply my-product.yaml
 ```
 
 If your declaration was successfully applied, your declaration will update
