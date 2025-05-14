@@ -46,3 +46,7 @@ func (d *ProductListingDeclaration) Sanitize() {
 		d.With.Components[i].LastUpdateDate = nil
 	}
 }
+
+func (d *ProductListingDeclaration) HasComponents() bool {
+	return len(d.With.Components) > 0
+}

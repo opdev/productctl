@@ -5,8 +5,19 @@ productctl
 *.env
 *completion*
 
-# python virtual environment used for schema generation
-ve/
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin
 
 # editor and IDE paraphernalia
 .idea
@@ -17,3 +28,6 @@ ve/
 
 # MacOS related artifacts
 .DS_Store
+
+# Vagrant
+.vagrant

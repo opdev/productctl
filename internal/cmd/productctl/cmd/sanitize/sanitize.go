@@ -12,7 +12,7 @@ import (
 
 func Command() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "sanitize-product",
+		Use:   "sanitize <your-declaration.yaml>",
 		Short: "Cleans declaration for re-use and emits to stdout",
 		Long:  "Strips data from the product declaration on disk that associates a product with an entry in the backend. Does not impact the backend, or overwrite the input file.",
 		Args:  cobra.ExactArgs(1),

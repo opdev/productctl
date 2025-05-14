@@ -1,4 +1,4 @@
-package newproduct
+package create
 
 import (
 	"encoding/json"
@@ -17,8 +17,8 @@ var flagDiscoveredWorkloadManifestFilename string
 
 func Command() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "new-product filename.yaml",
-		Short: "Start building a new product listing.",
+		Use:   "create <your-declaration.yaml>",
+		Short: "Start building a new product listing declaration on your filesystem",
 		Long:  "Scaffolds a new product listing for you to the specified filename. The contents will be a base template for you to update.",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(_ *cobra.Command, args []string) error {
@@ -82,5 +82,5 @@ func parseDiscoveredWorkloads(fromFile string) ([]*resource.Component, error) {
 		return nil, err
 	}
 
-	return libdiscovery.ParseDiscoveryManifest(manifest)
+	return libdiscovery.ComponentsFromDiscoveryManifest(manifest)
 }

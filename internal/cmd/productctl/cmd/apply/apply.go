@@ -19,7 +19,7 @@ import (
 
 func Command() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "apply-product",
+		Use:   "apply <your-declaration.yaml>",
 		Short: "Apply changes to Partner product listings from the input file.",
 		Long:  "Apply changes to partner product listings based on the provided configuration file",
 		Args:  cobra.ExactArgs(1),

@@ -65,6 +65,17 @@ fmt: install.gofumpt
 tidy:
 	go mod tidy
 
+.PHONY: test
+test:
+	go test -v ./...
+
+.PHONY: cover
+cover:
+	go test -v \
+	 -race \
+	 -cover -coverprofile=coverage.out \
+	 ./...
+
 ### Fail if git diff detects a change. Useful for CI.
 .PHONY: diff-check
 diff-check:

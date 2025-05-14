@@ -3,6 +3,7 @@ module github.com/opdev/productctl
 go 1.24.0
 
 require (
+	dario.cat/mergo v1.0.2
 	github.com/Khan/genqlient v0.8.0
 	github.com/invopop/jsonschema v0.13.0
 	github.com/opdev/discover-workload v0.0.0-20250115205614-3233d42da6d9

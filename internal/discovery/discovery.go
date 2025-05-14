@@ -1,4 +1,4 @@
-// Package discovery adds relevant library functions for working with worklodas
+// Package discovery adds relevant library functions for working with workloads
 // discovered via the discover-workload library.
 // https://github.com/opdev/discover-workload.
 package discovery
@@ -13,16 +13,11 @@ import (
 
 var ErrDuplicateComponentName = errors.New("duplicate component name")
 
-// ParseDiscoveryManifest converts discovered workloads into Component
+// ComponentsFromDiscoveryManifest converts discovered workloads into Component
 // declarations. DiscoveredImages are treated as container components. The
 // specifics of the container component declaration are assumed, and left to the
 // user to change before use.
-//
-// TODO: This function may need renaming, as the data produced is not well
-// represented by the function's identifier.
-func ParseDiscoveryManifest(
-	manifest discovery.Manifest,
-) ([]*resource.Component, error) {
+func ComponentsFromDiscoveryManifest(manifest discovery.Manifest) ([]*resource.Component, error) {
 	if len(manifest.DiscoveredImages) == 0 {
 		return nil, errors.New("could not find discovered images in discovery manifest")
 	}

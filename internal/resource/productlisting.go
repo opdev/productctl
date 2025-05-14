@@ -4,11 +4,6 @@ import "time"
 
 type ProductListingType = string
 
-// TODO: The invopop/jsonschcema library used to generate the lsp completion
-// schema from this code is not treating string aliases like ProductListingType
-// as an enumeration, which is the primary goal behind including these. Find a
-// way to make tweak the jsonschema library to do this, or find another
-// solution.
 const (
 	ProductListingTypeContainerStack         ProductListingType = "container stack"
 	ProductListingTypeTraditionalApplication ProductListingType = "traditional application"

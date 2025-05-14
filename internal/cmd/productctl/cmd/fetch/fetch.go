@@ -17,7 +17,7 @@ import (
 
 func Command() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "fetch-product",
+		Use:   "fetch <productID>",
 		Short: "Get a pre-existing product listing",
 		Long:  "Get data about a pre-existing product listing by its ID and generate its declaration for storage on disk.",
 		Args:  cobra.MinimumNArgs(1),
