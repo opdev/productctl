@@ -5,6 +5,7 @@ package discovery
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/opdev/discover-workload/discovery"
 
@@ -40,7 +41,7 @@ func ComponentsFromDiscoveryManifest(manifest discovery.Manifest) ([]*resource.C
 		components = append(components, &c)
 		// Components with the same name are not allowed.
 		if _, exists := processedNames[c.Name]; exists {
-			return nil, ErrDuplicateComponentName
+			return nil, fmt.Errorf("%w: component with name %s is defined more than once", ErrDuplicateComponentName, c.Name)
 		}
 
 		processedNames[c.Name] = nil
