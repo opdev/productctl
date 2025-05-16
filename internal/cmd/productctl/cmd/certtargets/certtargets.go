@@ -185,13 +185,15 @@ func containerTemplate(img, key, name string, out io.Writer) error {
 	t := `  ## {{ .Name }}
   {{ .Key }}:
     image_ref: {{ .Image }}
+    tool_flags:
+      submit: true
     tags:
       ## A tag you want to certify.
       - tag: placeholder
       ## If this tag should use different tool_flags than what you configure at
       ## the top level for this component, uncomment this line and specify that
       ## here.
-      # tool_flags: []
+      # tool_flags: {}
 `
 
 	entryTemplate, err := template.New("entry").Parse(t)
@@ -245,8 +247,8 @@ func operatorTemplate(img, key, name string, out io.Writer) error {
     ## The tool_flags directive contains any flags to set on the
     ## certification tooling.
     tool_flags:
-    # kubeconfig is a path to the kubeconfig to use for this component.
-    kubeconfig: component-kubeconfig
+      # kubeconfig is a path to the kubeconfig to use for this component.
+      kubeconfig: component-kubeconfig.yaml
     ## tags you wish to certify are configured here.
     tags:
       - tag: placeholder
