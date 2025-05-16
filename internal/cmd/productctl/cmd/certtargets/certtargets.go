@@ -245,8 +245,8 @@ func operatorTemplate(img, key, name string, out io.Writer) error {
     ## The tool_flags directive contains any flags to set on the
     ## certification tooling.
     tool_flags:
-	  # kubeconfig is a path to the kubeconfig to use for this component.
-	  kubeconfig: component-kubeconfig
+    # kubeconfig is a path to the kubeconfig to use for this component.
+    kubeconfig: component-kubeconfig
     ## tags you wish to certify are configured here.
     tags:
       - tag: placeholder
