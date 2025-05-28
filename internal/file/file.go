@@ -6,6 +6,7 @@ import (
 	"io"
 	"log/slog"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -42,6 +43,8 @@ func (w *LazyOverwriter) logger() *slog.Logger {
 	return w.OptionalLogger
 }
 
+// nameGenFn returns the in-instance BackupFilenameGenFn, or a default if
+// none has been provided.
 func (w *LazyOverwriter) nameGenFn() BackupNameGenerator {
 	if w.BackupFilenameGenFn == nil {
 		return prependWithSecondsSinceEpoch
@@ -50,6 +53,9 @@ func (w *LazyOverwriter) nameGenFn() BackupNameGenerator {
 	return w.BackupFilenameGenFn
 }
 
+// CreateBackup will create a backup file for the given w.Filename using
+// w.BackupFilenameGenFn to produce the output file. Filenames can be full paths. This
+// function will ensure that only basenames are passed to BackupFilenameGenFn.
 func (w *LazyOverwriter) CreateBackup() error {
 	newNameFn := w.nameGenFn()
 
@@ -58,7 +64,8 @@ func (w *LazyOverwriter) CreateBackup() error {
 		return err
 	}
 
-	newName := newNameFn(w.Filename)
+	newBaseName := newNameFn(filepath.Base(w.Filename))
+	newName := filepath.Join(filepath.Dir(w.Filename), newBaseName)
 	w.logger().Debug("writing backup file before overwriting original", "backup", newName, "original", w.Filename)
 	newFile, err := os.OpenFile(newName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0o644)
 	if err != nil {
@@ -100,6 +107,6 @@ func prependWithSecondsSinceEpoch(s string) string {
 // Ensure this meets the function signature over time.
 var _ BackupNameGenerator = prependWithSecondsSinceEpoch
 
-// BackupNameGenerator describes the function to accept an originalName and
-// produce a new Name.
-type BackupNameGenerator = func(originalName string) (newName string)
+// BackupNameGenerator describes the function to accept an originalBaseName and
+// produce a newBaseName.
+type BackupNameGenerator = func(originalBaseName string) (newBaseName string)
