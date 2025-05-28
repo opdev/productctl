@@ -17,11 +17,14 @@ linters:
     - unparam
     - whitespace
 linters-settings:
-  stylecheck:
-    dot-import-whitelist:
-      - github.com/onsi/gomega
-      - github.com/onsi/ginkgo
-      - github.com/onsi/ginkgo/v2
+  revive:
+    rules:
+      - name: dot-imports
+        arguments:
+        - allowedPackages:
+          - github.com/onsi/gomega
+          - github.com/onsi/ginkgo
+          - github.com/onsi/ginkgo/v2
   goimports:
     local-prefixes: github.com/opdev/productctl
   depguard:
