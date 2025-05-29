@@ -12,7 +12,10 @@ import (
 	"github.com/opdev/productctl/internal/resource"
 )
 
-var ErrDuplicateComponentName = errors.New("duplicate component name")
+var (
+	ErrDuplicateComponentName = errors.New("duplicate component name")
+	ErrNoImagesDiscovered     = errors.New("no images found in discovery manifest")
+)
 
 // ComponentsFromDiscoveryManifest converts discovered workloads into Component
 // declarations. DiscoveredImages are treated as container components. The
@@ -20,7 +23,7 @@ var ErrDuplicateComponentName = errors.New("duplicate component name")
 // user to change before use.
 func ComponentsFromDiscoveryManifest(manifest discovery.Manifest) ([]*resource.Component, error) {
 	if len(manifest.DiscoveredImages) == 0 {
-		return nil, errors.New("could not find discovered images in discovery manifest")
+		return nil, ErrNoImagesDiscovered
 	}
 
 	processedNames := map[string]any{}
