@@ -72,7 +72,7 @@ func runE(cmd *cobra.Command, args []string) error {
 	}
 
 	L.Debug("Generating inventory from product and mappings")
-	inventoryData, err := ansible.GenerateInventory(
+	inventory, err := ansible.GenerateInventory(
 		cmd.Context(),
 		declaration,
 		mapping,
@@ -99,6 +99,11 @@ func runE(cmd *cobra.Command, args []string) error {
 	}
 
 	inventoryDir, err := os.MkdirTemp(runBaseDir, "inventory-")
+	if err != nil {
+		return err
+	}
+
+	inventoryData, err := yaml.Marshal(inventory)
 	if err != nil {
 		return err
 	}

@@ -71,10 +71,10 @@ test:
 
 .PHONY: cover
 cover:
-	go test -v \
+	go test \
 	 -race \
 	 -cover -coverprofile=coverage.out \
-	 ./...
+	 $$(go list ./... | grep -v genpyxis)
 
 ### Fail if git diff detects a change. Useful for CI.
 .PHONY: diff-check
