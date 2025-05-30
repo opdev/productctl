@@ -5,15 +5,18 @@ import (
 	"errors"
 	"strings"
 
-	"sigs.k8s.io/yaml"
-
 	"github.com/opdev/productctl/internal/logger"
 	"github.com/opdev/productctl/internal/resource"
 )
 
-const AnsibleConnectionLocal = "local"
+var ErrNoComponentsDeclared = errors.New("no components declared")
 
-type ExtraVars = map[string]any
+const (
+	AnsibleConnectionLocal = "local"
+	InventoryKeyContainer  = "container_components"
+	InventoryKeyOperator   = "operator_components"
+	InventoryKeyHelmChart  = "helm_chart_components"
+)
 
 // HelmChartComponentHostVars contains the variables for a container component
 type HelmChartComponentHostVars struct {
@@ -48,13 +51,12 @@ type ProductMeta struct {
 // certification targets for each component.
 func GenerateInventory(
 	ctx context.Context,
-
 	product *resource.ProductListingDeclaration,
 	mapping MappingDeclaration,
-) ([]byte, error) {
+) (map[string]any, error) {
 	L := logger.FromContextOrDiscard(ctx)
 	if !product.HasComponents() {
-		return nil, errors.New("no components declared")
+		return nil, ErrNoComponentsDeclared
 	}
 
 	L.Debug("Checking product for container components")
@@ -75,19 +77,19 @@ func GenerateInventory(
 		return nil, err
 	}
 
-	inventoryOut := map[string]any{
-		"container_components": map[string]any{
+	inventory := map[string]any{
+		InventoryKeyContainer: map[string]any{
 			"hosts": containerHosts,
 		},
-		"helm_chart_components": map[string]any{
-			"hosts": helmHosts,
-		},
-		"operator_components": map[string]any{
+		InventoryKeyOperator: map[string]any{
 			"hosts": operatorHosts,
+		},
+		InventoryKeyHelmChart: map[string]any{
+			"hosts": helmHosts,
 		},
 	}
 
-	return yaml.Marshal(inventoryOut)
+	return inventory, nil
 }
 
 // generateContainerComponentInventory produces an Ansible inventory merging
@@ -145,14 +147,16 @@ func generateContainerComponentInventory(
 				Component: cmp,
 			}
 
-			if tagConfig.ToolFlags != nil {
+			// if tagConfig.ToolFlags != nil {
+			if len(tagConfig.ToolFlags) > 0 {
 				L.Debug("container tag has custom tool flags.")
 				vars.ToolFlags = tagConfig.ToolFlags
 			}
 
 			// TODO: if it doesn't have a component ID, we should omit it or
 			// throw an error.
-			name := strings.Join([]string{cmp.ID, stripInvalidHostnameChars(vars.Image)}, "-")
+			name := strings.Join([]string{cmp.ID, vars.Image}, "-")
+			name = normalizeContainerHostname(name)
 			hosts[name] = &vars
 		}
 	}
@@ -231,19 +235,13 @@ func generateOperatorComponentInventory(
 
 			// TODO: if it doesn't have a component ID, we should omit it or
 			// throw an error.
-			name := strings.Join([]string{cmp.ID, stripInvalidHostnameChars(vars.Image)}, "-")
+			name := strings.Join([]string{cmp.ID, vars.Image}, "-")
+			name = normalizeContainerHostname(name)
 			hosts[name] = &vars
 		}
 	}
 
 	return hosts, nil
-}
-
-// stripInvalidHostnameChars replaces characters expected in container URIs with
-// characters safe for ansible hostnames. For example, an image with the URI
-// quay.io/example/image:v0.0.1 would become quay.io_example_image_v0.0.1.
-func stripInvalidHostnameChars(s string) string {
-	return strings.Replace(strings.Replace(s, ":", "_", -1), "/", "_", -1)
 }
 
 // generateHelmComponentInventory produces the helm components of the Ansible
@@ -290,8 +288,8 @@ func generateHelmComponentInventory(
 			Component: cmp,
 		}
 
-		// TODO: Find a way to make this hostname normalization easier to read.
-		name := strings.Join([]string{cmp.ID, stripInvalidHostnameChars(strings.Replace(vars.ChartURI, "https://", "remotechart-", -1))}, "-")
+		name := strings.Join([]string{cmp.ID, vars.ChartURI}, "-")
+		name = normalizeChartHostname(name)
 		hosts[name] = &vars
 	}
 
@@ -387,4 +385,40 @@ type OperatorComponentHostVars struct {
 	ToolFlags map[string]any `json:"tool_flags,inline,omitempty"`
 }
 
+// HostMap map is a representation of an ansible Host map, where a given host
+// name corresponds to a collection of variables.
 type HostMap[T ContainerComponentHostVars | HelmChartComponentHostVars | OperatorComponentHostVars] map[string]*T
+
+// normalizeStringFn defines a string manipulation to be used in a processing strings.
+type normalizeStringFn = func(s string) string
+
+// normalizeString processes s with all normalizationFns, in order, and returns
+// the result.
+func normalizeString(s string, normalizationFns ...normalizeStringFn) string {
+	for _, fn := range normalizationFns {
+		s = fn(s)
+	}
+
+	return s
+}
+
+func normalizeContainerHostname(s string) string {
+	return normalizeString(
+		s,
+		// Remove the colon from the tag
+		func(n string) string { return strings.Replace(n, ":", "_", -1) },
+		// Remove slashes from URI
+		func(n string) string { return strings.Replace(n, "/", "_", -1) },
+	)
+}
+
+func normalizeChartHostname(s string) string {
+	return normalizeString(
+		s,
+		// Strip protocol
+		func(n string) string { return strings.Replace(n, "https://", "remotechart-", -1) },
+		func(n string) string { return strings.Replace(n, "http://", "remotechart-", -1) },
+		// Remove remaining slashes from URI
+		func(n string) string { return strings.Replace(n, "/", "_", -1) },
+	)
+}
