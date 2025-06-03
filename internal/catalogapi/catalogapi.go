@@ -13,6 +13,11 @@ import (
 	"github.com/opdev/productctl/internal/resource"
 )
 
+var (
+	ErrMissingName         = errors.New("listing did not have a name and it is required")
+	ErrDetachingComponents = errors.New("unable to detach components from product listing")
+)
+
 // APIEndpoint represents a full URL to a given Catalog API instance.
 type APIEndpoint = string
 
@@ -40,7 +45,7 @@ func ApplyProduct(
 	}
 
 	if !declaration.Spec.HasName() {
-		return nil, errors.New("listing did not have a name and it is required")
+		return nil, ErrMissingName
 	}
 
 	if updateListing {
@@ -54,11 +59,11 @@ func ApplyProduct(
 			L.Info("declaration enumerated no components. detaching all components from product (if necessary)")
 			resp, err := genpyxis.SetComponentsForProduct(ctx, client, declaration.Spec.ID, []string{})
 			if err != nil {
-				return nil, err
+				return nil, errors.Join(ErrDetachingComponents, err)
 			}
 
 			if gqlErr := resp.Update_product_listing.GetError(); gqlErr != nil {
-				return nil, ParseGraphQLResponseError(gqlErr)
+				return nil, errors.Join(ErrDetachingComponents, ParseGraphQLResponseError(gqlErr))
 			}
 
 			declaration.Spec.LastUpdateDate = resp.Update_product_listing.GetData().GetLast_update_date()

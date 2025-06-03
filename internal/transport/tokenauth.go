@@ -23,7 +23,6 @@ type APITokenAuthenticated struct {
 func (t *APITokenAuthenticated) RoundTrip(req *http.Request) (*http.Response, error) {
 	t.logger().Debug("adding api key and user agent headers to request")
 	req.Header.Set("X-API-KEY", t.Token)
-	req.Header.Set("User-Agent", t.UserAgent)
 	return t.Wrapped.RoundTrip(req)
 }
 
