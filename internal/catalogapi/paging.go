@@ -2,9 +2,12 @@ package catalogapi
 
 import (
 	"context"
+	"errors"
 
 	"github.com/opdev/productctl/internal/logger"
 )
+
+var ErrQueryPageFailed = errors.New("failed to query page")
 
 // QueryAll returns all items of type T in a paginated response from
 // startingPage with the set pageSize.
@@ -23,7 +26,7 @@ func QueryAll[T any](
 		L := L.With("page", page)
 		returned, total, err := queryPageFn(page, pageSize)
 		if err != nil {
-			return nil, err
+			return nil, errors.Join(ErrQueryPageFailed, err)
 		}
 
 		allItems = append(allItems, returned...)
