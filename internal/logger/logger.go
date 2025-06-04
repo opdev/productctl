@@ -16,7 +16,7 @@ type contextKey struct{}
 func FromContextOrDiscard(ctx context.Context) *slog.Logger {
 	l, err := FromContext(ctx)
 	if err != nil {
-		l = slog.New(discardHandler{})
+		l = DiscardingLogger()
 	}
 	return l
 }
@@ -75,27 +75,5 @@ func MarshalJSON(v any) []byte {
 }
 
 func DiscardingLogger() *slog.Logger {
-	return slog.New(discardHandler{})
+	return slog.New(slog.DiscardHandler)
 }
-
-//
-// This DiscardHandler code is a copy of the work that's merged in the standard
-// library. At the time of this writing, go1.23.5 is the latest version and it
-// does not contain the slog.DiscardHandler.
-//
-// When this becomes available, the below discardHandler-related code can be
-// replaced with stdlib code.
-//
-// Upstream PR: https://go-review.googlesource.com/c/go/+/626486
-//
-
-// discardHandler discards all log output.
-// discardHandler.Enabled returns false for all Levels.
-var _ slog.Handler = discardHandler{}
-
-type discardHandler struct{}
-
-func (dh discardHandler) Enabled(context.Context, slog.Level) bool  { return false }
-func (dh discardHandler) Handle(context.Context, slog.Record) error { return nil }
-func (dh discardHandler) WithAttrs([]slog.Attr) slog.Handler        { return dh }
-func (dh discardHandler) WithGroup(string) slog.Handler             { return dh }
