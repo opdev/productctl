@@ -18,6 +18,7 @@ import (
 var (
 	ErrEnvVarMissing       = errors.New("required environment variable is missing")
 	ErrEnvVarInvalidFormat = errors.New("required environment variable is malformed")
+	ErrAPIEndpointUnknown  = errors.New("unknown api endpoint")
 )
 
 var (
@@ -58,8 +59,6 @@ func ConfigureLogger(logLevel string, logTarget io.Writer) (context.Context, *sl
 	appContext := logger.NewContextWithLogger(context.Background(), l)
 	return appContext, l, nil
 }
-
-var ErrAPIEndpointUnknown = errors.New("unknown api endpoint")
 
 // ResolveAPIEndpoint parses a referenceString for known endpoint abbreviations
 // possible catalog environments, and returns the APIEndpoint that corresponds.
