@@ -14,6 +14,7 @@ import (
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/certifyhelmcharts"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/certifyoperators"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/certtargets"
+	"github.com/opdev/productctl/internal/cmd/productctl/cmd/cleanup"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/create"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/fetch"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/lsp"
@@ -47,6 +48,7 @@ func rootCmd() *cobra.Command {
 	product.AddCommand(apply.Command())
 	product.AddCommand(fetch.Command())
 	product.AddCommand(sanitize.Command())
+	product.AddCommand(cleanup.Command())
 
 	cmd.AddCommand(product)
 
