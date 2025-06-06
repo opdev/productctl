@@ -12,6 +12,7 @@ const (
 	FlagIDVersionAsJSON           FlagID = "json"                            // For printing version output as JSON.
 	FlagIDCustomEndpoint          FlagID = "custom-endpoint"                 // For defining a GraphQL endpoint that isn't predefined.
 	FlagIDCreateBackupOnOverwrite FlagID = "backup-declaration-on-overwrite" // For creating declaration backups before overwriting
+	FlagIDFromDiscoveryJSON       FlagID = "from-discovery-json"             // For providing a discovery input to product listing generation
 )
 
 // These flagIDs are mostly used in cert-tool-runner applications.

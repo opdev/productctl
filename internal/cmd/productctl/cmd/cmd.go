@@ -25,10 +25,10 @@ import (
 
 // Execute runs the top-most command structure of the CLI.
 func Execute() error {
-	return rootCmd().ExecuteContext(context.Background())
+	return RootCmd().ExecuteContext(context.Background())
 }
 
-func rootCmd() *cobra.Command {
+func RootCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:               "productctl",
 		Short:             "A CLI for managing Red Hat Partner Product Listings.",

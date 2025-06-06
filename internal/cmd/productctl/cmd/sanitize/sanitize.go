@@ -22,7 +22,7 @@ func Command() *cobra.Command {
 	return cmd
 }
 
-func sanitizeProductCmdRunE(_ *cobra.Command, args []string) error {
+func sanitizeProductCmdRunE(cmd *cobra.Command, args []string) error {
 	f, err := os.Open(args[0])
 	if err != nil {
 		return err
@@ -39,7 +39,7 @@ func sanitizeProductCmdRunE(_ *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	_, err = fmt.Fprint(os.Stdout, string(b))
+	_, err = fmt.Fprint(cmd.OutOrStdout(), string(b))
 	if err != nil {
 		return err
 	}
