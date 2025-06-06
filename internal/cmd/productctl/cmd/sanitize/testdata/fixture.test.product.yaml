@@ -1,0 +1,12 @@
+# Test fixture. Do not rename without editing referring tests. Do not edit this
+# file in testing. Duplicate and modify as needed.
+kind: ProductListing
+spec:
+  cert_projects:
+    - "222"
+  _id: "test-data-product-id"
+  name: "test-product"
+  org_id: 111
+with:
+  components:
+  - _id: "222"

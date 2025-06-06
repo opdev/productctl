@@ -53,6 +53,10 @@ schemagen-venv:
 lint: install.golangci-lint
 	$(GOLANGCI_LINT) run
 
+.PHONY: lint.fix
+lint.fix: install.golangci-lint
+	$(GOLANGCI_LINT) run --fix
+
 .PHONY: vet
 vet:
 	go vet ./...
@@ -74,7 +78,7 @@ cover:
 	go test \
 	 -race \
 	 -cover -coverprofile=coverage.out \
-	 $$(go list ./... | grep -v genpyxis)
+	 $$(go list ./... | grep -vP 'genpyxis|testutils')
 
 ### Fail if git diff detects a change. Useful for CI.
 .PHONY: diff-check

@@ -1,0 +1,9 @@
+{
+    "DiscoveredImages": [
+        {
+            "PodName": "pod-1",
+            "ContainerName": "container-1",
+            "Image": "example.com/registry/namespace:tag"
+        }
+    ]
+}

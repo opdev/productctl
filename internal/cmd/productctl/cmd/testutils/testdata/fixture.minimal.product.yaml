@@ -1,0 +1,5 @@
+kind: ProductListing
+spec:
+  _id: "123"
+  name: "minimal-product"
+with: {}

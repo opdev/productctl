@@ -25,7 +25,7 @@ func Command() *cobra.Command {
 				}
 			}
 
-			fmt.Print(out)
+			fmt.Fprint(cmd.OutOrStdout(), out)
 		},
 	}
 
