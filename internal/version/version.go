@@ -18,6 +18,8 @@ var Version = Info{
 	Commit:   commit,
 }
 
+var _ fmt.Stringer = &Info{}
+
 type Info struct {
 	BaseName string `json:"-"`
 	Name     string `json:"name"`
