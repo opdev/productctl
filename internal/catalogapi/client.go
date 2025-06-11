@@ -31,7 +31,7 @@ func TokenAuthenticatedHTTPClient(
 	httpClient.Transport = buildTransport(
 		http.DefaultTransport,
 		func(rt http.RoundTripper) http.RoundTripper {
-			return &transport.RequestAndResponseLogger{
+			return &transport.RequestLogger{
 				Wrapped: rt,
 				Logger:  logger,
 			}
@@ -46,7 +46,6 @@ func TokenAuthenticatedHTTPClient(
 			return &transport.APITokenAuthenticated{
 				Wrapped: rt,
 				Token:   token,
-				Logger:  logger,
 			}
 		},
 	)
