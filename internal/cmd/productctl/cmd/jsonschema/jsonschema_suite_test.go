@@ -1,4 +1,4 @@
-package lsp_test
+package jsonschema_test
 
 import (
 	"testing"
@@ -9,5 +9,5 @@ import (
 
 func TestLSP(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Lsp Suite")
+	RunSpecs(t, "JSONschema Suite")
 }

@@ -1,4 +1,4 @@
-package lsp
+package jsonschema
 
 import (
 	"encoding/json"
@@ -12,8 +12,8 @@ import (
 
 func Command() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "lsp-completion",
-		Short: "Generate resource schema for LSPs that support it.",
+		Use:   "jsonschema",
+		Short: "Generate resource jsonschema for LSPs that support it.",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			// TODO: If this functionality will remain and be useful, we should
 			// add comments, enums, and warnings when things are immutable after

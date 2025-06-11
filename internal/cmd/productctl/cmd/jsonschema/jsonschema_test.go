@@ -1,4 +1,4 @@
-package lsp_test
+package jsonschema_test
 
 import (
 	"encoding/json"
@@ -6,12 +6,12 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/opdev/productctl/internal/cmd/productctl/cmd/lsp"
+	"github.com/opdev/productctl/internal/cmd/productctl/cmd/jsonschema"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/testutils"
 	"github.com/opdev/productctl/internal/resource"
 )
 
-var _ = Describe("LSP", func() {
+var _ = Describe("jsonschema", func() {
 	When("generating resource schemas", func() {
 		var (
 			cmdOut string
@@ -20,7 +20,7 @@ var _ = Describe("LSP", func() {
 		)
 
 		BeforeEach(func() {
-			cmdOut, cmdErr = testutils.ExecuteCommand(lsp.Command(), args...)
+			cmdOut, cmdErr = testutils.ExecuteCommand(jsonschema.Command(), args...)
 		})
 
 		It("should not be empty", func() {
