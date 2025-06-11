@@ -9,17 +9,18 @@ import (
 )
 
 // Ensure the tranport implements http.RoundTripper.
-var _ http.RoundTripper = &RequestAndResponseLogger{}
+var _ http.RoundTripper = &RequestLogger{}
 
-// RequestAndResponseLogger logs the body of the request before sending it, and
-// logs relevant information from the response useful for debugging.
-type RequestAndResponseLogger struct {
+// RequestLogger logs the body of the request before sending it, and logs
+// relevant information from the response useful for debugging. Note that this
+// does not log information related to the response body.
+type RequestLogger struct {
 	Wrapped        http.RoundTripper
 	Logger         *slog.Logger
 	resolvedLogger *slog.Logger
 }
 
-func (t *RequestAndResponseLogger) RoundTrip(req *http.Request) (*http.Response, error) {
+func (t *RequestLogger) RoundTrip(req *http.Request) (*http.Response, error) {
 	L := t.logger()
 
 	b, getErr := req.GetBody()
@@ -49,7 +50,7 @@ func (t *RequestAndResponseLogger) RoundTrip(req *http.Request) (*http.Response,
 // logger returns the provided logger, or a discarding logger if one isn't
 // provided. Gives the transport logging mechanism a stable interface, given the
 // lack of a context.
-func (t *RequestAndResponseLogger) logger() *slog.Logger {
+func (t *RequestLogger) logger() *slog.Logger {
 	if t.Logger != nil {
 		return t.Logger
 	}
