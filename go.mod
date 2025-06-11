@@ -3,7 +3,6 @@ module github.com/opdev/productctl
 go 1.24.0
 
 require (
-	dario.cat/mergo v1.0.2
 	github.com/Khan/genqlient v0.8.1
 	github.com/invopop/jsonschema v0.13.0
 	github.com/onsi/ginkgo/v2 v2.23.4

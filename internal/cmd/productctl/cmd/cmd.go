@@ -10,14 +10,10 @@ import (
 	"github.com/opdev/productctl/internal/cli"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/apply"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/bridge"
-	"github.com/opdev/productctl/internal/cmd/productctl/cmd/certifycontainers"
-	"github.com/opdev/productctl/internal/cmd/productctl/cmd/certifyhelmcharts"
-	"github.com/opdev/productctl/internal/cmd/productctl/cmd/certifyoperators"
-	"github.com/opdev/productctl/internal/cmd/productctl/cmd/certtargets"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/cleanup"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/create"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/fetch"
-	"github.com/opdev/productctl/internal/cmd/productctl/cmd/lsp"
+	"github.com/opdev/productctl/internal/cmd/productctl/cmd/jsonschema"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/sanitize"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/version"
 	libversion "github.com/opdev/productctl/internal/version"
@@ -49,21 +45,8 @@ func RootCmd() *cobra.Command {
 	product.AddCommand(fetch.Command())
 	product.AddCommand(sanitize.Command())
 	product.AddCommand(cleanup.Command())
-
+	product.AddCommand(jsonschema.Command())
 	cmd.AddCommand(product)
-
-	// Build the cert tool running command tree
-	certify := bridge.Command("certify", "Run cert-tool-runners for specified certifications")
-	certify.AddCommand(certifycontainers.Command())
-	certify.AddCommand(certifyhelmcharts.Command())
-	certify.AddCommand(certifyoperators.Command())
-
-	// Build alpha commands.
-	alpha := bridge.Command("alpha", "Experimental commands subject to removal or change at any time")
-	alpha.AddCommand(lsp.Command())
-	alpha.AddCommand(certtargets.Command())
-	alpha.AddCommand(certify)
-	cmd.AddCommand(alpha)
 
 	return cmd
 }
