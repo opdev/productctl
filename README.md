@@ -47,7 +47,6 @@ Usage:
   productctl [command]
 
 Available Commands:
-  alpha       Experimental commands subject to removal or change at any time
   completion  Generate the autocompletion script for the specified shell
   help        Help about any command
   product     Manage your Product Listing
