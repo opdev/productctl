@@ -44,6 +44,7 @@ func (d *ProductListingDeclaration) Sanitize() {
 		d.With.Components[i].ProjectStatus = "active"
 		d.With.Components[i].CreationDate = nil
 		d.With.Components[i].LastUpdateDate = nil
+		d.With.Components[i].CertificationDate = nil
 	}
 }
 
