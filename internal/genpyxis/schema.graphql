@@ -40,6 +40,10 @@ directive @post_fetch(functions: [String]) on FIELD_DEFINITION | OBJECT
 
 directive @post_serialize(functions: [String]) on FIELD_DEFINITION | OBJECT
 
+directive @reference_entity(functions: [String]) on FIELD_DEFINITION | OBJECT
+
+directive @inaccessible on FIELD_DEFINITION | OBJECT
+
 directive @serialize(schema: String, format: String, decrypt: String) on FIELD_DEFINITION | OBJECT
 
 directive @mongodb_create_one(collection: String, database: String) on FIELD_DEFINITION | OBJECT
@@ -4711,6 +4715,12 @@ type RpmsItems {
 
   """RPM version."""
   version: String
+
+  """RPM epoch."""
+  epoch: String
+
+  """RPM module."""
+  module: String
 }
 
 type ContainerImageRPMManifestEdges {
@@ -5799,6 +5809,9 @@ type ContainerRepositoryFederated {
   """Marketplace related information."""
   marketplace: ContainerRepositoryMarketplace
 
+  """List of products that are part of the product listing."""
+  products: [Product]
+
   """MongoDB unique _id"""
   _id: ObjectID
 
@@ -5809,6 +5822,11 @@ type ContainerRepositoryFederated {
 
   """The date when the entry was last updated."""
   last_update_date: DateTime
+}
+
+type Product {
+  """Engineering id of the product."""
+  itProductServiceId: ID
 }
 
 type ContainerRepositoryFederatedConnection {
@@ -6693,6 +6711,12 @@ input RpmsItemsInput {
 
   """RPM version."""
   version: String
+
+  """RPM epoch."""
+  epoch: String
+
+  """RPM module."""
+  module: String
 }
 
 """Contain status and related metadata of a certProject image request."""
