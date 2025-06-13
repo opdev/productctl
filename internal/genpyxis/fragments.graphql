@@ -23,9 +23,30 @@ fragment ProductListingSupportedFields on ProductListing {
     url
   }
   legal {
-    description
     license_agreement_url
     privacy_policy_url
+  }
+  linked_resources {
+    title
+    type
+    description
+    url
+  }
+  faqs {
+    answer
+    question
+  }
+  search_aliases {
+    key
+    value
+  }
+  functional_categories
+  features {
+    title
+    description
+  }
+  quick_start_configuration {
+    instructions
   }
 }
 

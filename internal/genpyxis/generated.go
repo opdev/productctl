@@ -1325,6 +1325,36 @@ func (v *MutateProductListingCommonResponseDataProductListing) GetLegal() *Produ
 	return v.ProductListingSupportedFields.Legal
 }
 
+// GetLinked_resources returns MutateProductListingCommonResponseDataProductListing.Linked_resources, and is useful for accessing the field via an interface.
+func (v *MutateProductListingCommonResponseDataProductListing) GetLinked_resources() []*ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems {
+	return v.ProductListingSupportedFields.Linked_resources
+}
+
+// GetFaqs returns MutateProductListingCommonResponseDataProductListing.Faqs, and is useful for accessing the field via an interface.
+func (v *MutateProductListingCommonResponseDataProductListing) GetFaqs() []*ProductListingSupportedFieldsFaqsFAQSItems {
+	return v.ProductListingSupportedFields.Faqs
+}
+
+// GetSearch_aliases returns MutateProductListingCommonResponseDataProductListing.Search_aliases, and is useful for accessing the field via an interface.
+func (v *MutateProductListingCommonResponseDataProductListing) GetSearch_aliases() []*ProductListingSupportedFieldsSearch_aliasesSearchAliasesItems {
+	return v.ProductListingSupportedFields.Search_aliases
+}
+
+// GetFunctional_categories returns MutateProductListingCommonResponseDataProductListing.Functional_categories, and is useful for accessing the field via an interface.
+func (v *MutateProductListingCommonResponseDataProductListing) GetFunctional_categories() []string {
+	return v.ProductListingSupportedFields.Functional_categories
+}
+
+// GetFeatures returns MutateProductListingCommonResponseDataProductListing.Features, and is useful for accessing the field via an interface.
+func (v *MutateProductListingCommonResponseDataProductListing) GetFeatures() []*ProductListingSupportedFieldsFeaturesFeaturesItems {
+	return v.ProductListingSupportedFields.Features
+}
+
+// GetQuick_start_configuration returns MutateProductListingCommonResponseDataProductListing.Quick_start_configuration, and is useful for accessing the field via an interface.
+func (v *MutateProductListingCommonResponseDataProductListing) GetQuick_start_configuration() *ProductListingSupportedFieldsQuick_start_configurationQuickStartConfiguration {
+	return v.ProductListingSupportedFields.Quick_start_configuration
+}
+
 func (v *MutateProductListingCommonResponseDataProductListing) UnmarshalJSON(b []byte) error {
 
 	if string(b) == "null" {
@@ -1376,6 +1406,18 @@ type __premarshalMutateProductListingCommonResponseDataProductListing struct {
 	Support *ProductListingSupportedFieldsSupport `json:"support"`
 
 	Legal *ProductListingSupportedFieldsLegal `json:"legal"`
+
+	Linked_resources []*ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems `json:"linked_resources"`
+
+	Faqs []*ProductListingSupportedFieldsFaqsFAQSItems `json:"faqs"`
+
+	Search_aliases []*ProductListingSupportedFieldsSearch_aliasesSearchAliasesItems `json:"search_aliases"`
+
+	Functional_categories []string `json:"functional_categories"`
+
+	Features []*ProductListingSupportedFieldsFeaturesFeaturesItems `json:"features"`
+
+	Quick_start_configuration *ProductListingSupportedFieldsQuick_start_configurationQuickStartConfiguration `json:"quick_start_configuration"`
 }
 
 func (v *MutateProductListingCommonResponseDataProductListing) MarshalJSON() ([]byte, error) {
@@ -1402,6 +1444,12 @@ func (v *MutateProductListingCommonResponseDataProductListing) __premarshalJSON(
 	retval.Cert_projects = v.ProductListingSupportedFields.Cert_projects
 	retval.Support = v.ProductListingSupportedFields.Support
 	retval.Legal = v.ProductListingSupportedFields.Legal
+	retval.Linked_resources = v.ProductListingSupportedFields.Linked_resources
+	retval.Faqs = v.ProductListingSupportedFields.Faqs
+	retval.Search_aliases = v.ProductListingSupportedFields.Search_aliases
+	retval.Functional_categories = v.ProductListingSupportedFields.Functional_categories
+	retval.Features = v.ProductListingSupportedFields.Features
+	retval.Quick_start_configuration = v.ProductListingSupportedFields.Quick_start_configuration
 	return &retval, nil
 }
 
@@ -1914,6 +1962,17 @@ type ProductListingSupportedFields struct {
 	// This field is required when the product listing is published.
 	Support *ProductListingSupportedFieldsSupport `json:"support"`
 	Legal   *ProductListingSupportedFieldsLegal   `json:"legal"`
+	// This field is required when the product listing is published.
+	Linked_resources []*ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems `json:"linked_resources"`
+	// FAQ section for the catalog page.
+	Faqs []*ProductListingSupportedFieldsFaqsFAQSItems `json:"faqs"`
+	// List of search aliases for Solr.
+	Search_aliases []*ProductListingSupportedFieldsSearch_aliasesSearchAliasesItems `json:"search_aliases"`
+	// This field is required when the product listing is published.
+	Functional_categories []string `json:"functional_categories"`
+	// Features section for the catalog page.
+	Features                  []*ProductListingSupportedFieldsFeaturesFeaturesItems                          `json:"features"`
+	Quick_start_configuration *ProductListingSupportedFieldsQuick_start_configurationQuickStartConfiguration `json:"quick_start_configuration"`
 }
 
 // GetId returns ProductListingSupportedFields.Id, and is useful for accessing the field via an interface.
@@ -1963,6 +2022,36 @@ func (v *ProductListingSupportedFields) GetLegal() *ProductListingSupportedField
 	return v.Legal
 }
 
+// GetLinked_resources returns ProductListingSupportedFields.Linked_resources, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFields) GetLinked_resources() []*ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems {
+	return v.Linked_resources
+}
+
+// GetFaqs returns ProductListingSupportedFields.Faqs, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFields) GetFaqs() []*ProductListingSupportedFieldsFaqsFAQSItems {
+	return v.Faqs
+}
+
+// GetSearch_aliases returns ProductListingSupportedFields.Search_aliases, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFields) GetSearch_aliases() []*ProductListingSupportedFieldsSearch_aliasesSearchAliasesItems {
+	return v.Search_aliases
+}
+
+// GetFunctional_categories returns ProductListingSupportedFields.Functional_categories, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFields) GetFunctional_categories() []string {
+	return v.Functional_categories
+}
+
+// GetFeatures returns ProductListingSupportedFields.Features, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFields) GetFeatures() []*ProductListingSupportedFieldsFeaturesFeaturesItems {
+	return v.Features
+}
+
+// GetQuick_start_configuration returns ProductListingSupportedFields.Quick_start_configuration, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFields) GetQuick_start_configuration() *ProductListingSupportedFieldsQuick_start_configurationQuickStartConfiguration {
+	return v.Quick_start_configuration
+}
+
 // ProductListingSupportedFieldsContactsContactsItems includes the requested fields of the GraphQL type ContactsItems.
 type ProductListingSupportedFieldsContactsContactsItems struct {
 	Email_address string `json:"email_address"`
@@ -1993,15 +2082,43 @@ func (v *ProductListingSupportedFieldsDescriptions) GetLong() string { return v.
 // GetShort returns ProductListingSupportedFieldsDescriptions.Short, and is useful for accessing the field via an interface.
 func (v *ProductListingSupportedFieldsDescriptions) GetShort() string { return v.Short }
 
+// ProductListingSupportedFieldsFaqsFAQSItems includes the requested fields of the GraphQL type FAQSItems.
+// The GraphQL type's documentation follows.
+//
+// This field is required when the product listing is published.
+type ProductListingSupportedFieldsFaqsFAQSItems struct {
+	Answer   string `json:"answer"`
+	Question string `json:"question"`
+}
+
+// GetAnswer returns ProductListingSupportedFieldsFaqsFAQSItems.Answer, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsFaqsFAQSItems) GetAnswer() string { return v.Answer }
+
+// GetQuestion returns ProductListingSupportedFieldsFaqsFAQSItems.Question, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsFaqsFAQSItems) GetQuestion() string { return v.Question }
+
+// ProductListingSupportedFieldsFeaturesFeaturesItems includes the requested fields of the GraphQL type FeaturesItems.
+// The GraphQL type's documentation follows.
+//
+// This field is required when the product listing is published.
+type ProductListingSupportedFieldsFeaturesFeaturesItems struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+}
+
+// GetTitle returns ProductListingSupportedFieldsFeaturesFeaturesItems.Title, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsFeaturesFeaturesItems) GetTitle() string { return v.Title }
+
+// GetDescription returns ProductListingSupportedFieldsFeaturesFeaturesItems.Description, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsFeaturesFeaturesItems) GetDescription() string {
+	return v.Description
+}
+
 // ProductListingSupportedFieldsLegal includes the requested fields of the GraphQL type Legal.
 type ProductListingSupportedFieldsLegal struct {
-	Description           string `json:"description"`
 	License_agreement_url string `json:"license_agreement_url"`
 	Privacy_policy_url    string `json:"privacy_policy_url"`
 }
-
-// GetDescription returns ProductListingSupportedFieldsLegal.Description, and is useful for accessing the field via an interface.
-func (v *ProductListingSupportedFieldsLegal) GetDescription() string { return v.Description }
 
 // GetLicense_agreement_url returns ProductListingSupportedFieldsLegal.License_agreement_url, and is useful for accessing the field via an interface.
 func (v *ProductListingSupportedFieldsLegal) GetLicense_agreement_url() string {
@@ -2011,6 +2128,58 @@ func (v *ProductListingSupportedFieldsLegal) GetLicense_agreement_url() string {
 // GetPrivacy_policy_url returns ProductListingSupportedFieldsLegal.Privacy_policy_url, and is useful for accessing the field via an interface.
 func (v *ProductListingSupportedFieldsLegal) GetPrivacy_policy_url() string {
 	return v.Privacy_policy_url
+}
+
+// ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems includes the requested fields of the GraphQL type LinkedResourcesItems.
+type ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems struct {
+	Title       string `json:"title"`
+	Type        string `json:"type"`
+	Description string `json:"description"`
+	Url         string `json:"url"`
+}
+
+// GetTitle returns ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems.Title, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems) GetTitle() string {
+	return v.Title
+}
+
+// GetType returns ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems.Type, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems) GetType() string {
+	return v.Type
+}
+
+// GetDescription returns ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems.Description, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems) GetDescription() string {
+	return v.Description
+}
+
+// GetUrl returns ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems.Url, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsLinked_resourcesLinkedResourcesItems) GetUrl() string {
+	return v.Url
+}
+
+// ProductListingSupportedFieldsQuick_start_configurationQuickStartConfiguration includes the requested fields of the GraphQL type QuickStartConfiguration.
+type ProductListingSupportedFieldsQuick_start_configurationQuickStartConfiguration struct {
+	Instructions string `json:"instructions"`
+}
+
+// GetInstructions returns ProductListingSupportedFieldsQuick_start_configurationQuickStartConfiguration.Instructions, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsQuick_start_configurationQuickStartConfiguration) GetInstructions() string {
+	return v.Instructions
+}
+
+// ProductListingSupportedFieldsSearch_aliasesSearchAliasesItems includes the requested fields of the GraphQL type SearchAliasesItems.
+type ProductListingSupportedFieldsSearch_aliasesSearchAliasesItems struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+// GetKey returns ProductListingSupportedFieldsSearch_aliasesSearchAliasesItems.Key, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsSearch_aliasesSearchAliasesItems) GetKey() string { return v.Key }
+
+// GetValue returns ProductListingSupportedFieldsSearch_aliasesSearchAliasesItems.Value, and is useful for accessing the field via an interface.
+func (v *ProductListingSupportedFieldsSearch_aliasesSearchAliasesItems) GetValue() string {
+	return v.Value
 }
 
 // ProductListingSupportedFieldsSupport includes the requested fields of the GraphQL type Support.
@@ -2455,9 +2624,30 @@ fragment ProductListingSupportedFields on ProductListing {
 		url
 	}
 	legal {
-		description
 		license_agreement_url
 		privacy_policy_url
+	}
+	linked_resources {
+		title
+		type
+		description
+		url
+	}
+	faqs {
+		answer
+		question
+	}
+	search_aliases {
+		key
+		value
+	}
+	functional_categories
+	features {
+		title
+		description
+	}
+	quick_start_configuration {
+		instructions
 	}
 }
 `
@@ -2699,9 +2889,30 @@ fragment ProductListingSupportedFields on ProductListing {
 		url
 	}
 	legal {
-		description
 		license_agreement_url
 		privacy_policy_url
+	}
+	linked_resources {
+		title
+		type
+		description
+		url
+	}
+	faqs {
+		answer
+		question
+	}
+	search_aliases {
+		key
+		value
+	}
+	functional_categories
+	features {
+		title
+		description
+	}
+	quick_start_configuration {
+		instructions
 	}
 }
 `
@@ -2937,9 +3148,30 @@ fragment ProductListingSupportedFields on ProductListing {
 		url
 	}
 	legal {
-		description
 		license_agreement_url
 		privacy_policy_url
+	}
+	linked_resources {
+		title
+		type
+		description
+		url
+	}
+	faqs {
+		answer
+		question
+	}
+	search_aliases {
+		key
+		value
+	}
+	functional_categories
+	features {
+		title
+		description
+	}
+	quick_start_configuration {
+		instructions
 	}
 }
 `
@@ -3008,9 +3240,30 @@ fragment ProductListingSupportedFields on ProductListing {
 		url
 	}
 	legal {
-		description
 		license_agreement_url
 		privacy_policy_url
+	}
+	linked_resources {
+		title
+		type
+		description
+		url
+	}
+	faqs {
+		answer
+		question
+	}
+	search_aliases {
+		key
+		value
+	}
+	functional_categories
+	features {
+		title
+		description
+	}
+	quick_start_configuration {
+		instructions
 	}
 }
 `
