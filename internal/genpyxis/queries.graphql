@@ -112,6 +112,7 @@ query ComponentsForListing(
     id: $productID
     page: $page
     page_size: $pageSize
+    filter: {project_status: {eq: "active"}}
   ) {
     # @genqlient(flatten: true)
     data {
