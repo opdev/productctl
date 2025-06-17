@@ -2726,7 +2726,7 @@ func ArchiveComponent(
 // The query or mutation executed by ComponentsForListing.
 const ComponentsForListing_Operation = `
 query ComponentsForListing ($productID: ObjectIDFilterScalar, $page: Int!, $pageSize: Int!) {
-	find_product_listing_certification_projects(id: $productID, page: $page, page_size: $pageSize) {
+	find_product_listing_certification_projects(id: $productID, page: $page, page_size: $pageSize, filter: {project_status:{eq:"active"}}) {
 		data {
 			... ComponentSupportedFields
 		}

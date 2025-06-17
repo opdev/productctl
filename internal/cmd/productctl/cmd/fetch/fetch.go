@@ -2,7 +2,6 @@
 package fetch
 
 import (
-	"context"
 	"fmt"
 	"os"
 
@@ -19,9 +18,14 @@ func Command() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "fetch <productID>",
 		Short: "Get a pre-existing product listing",
-		Long:  "Get data about a pre-existing product listing by its ID and generate its declaration for storage on disk.",
-		Args:  cobra.MinimumNArgs(1),
-		RunE:  getProductListingRunE,
+		Long: `Get data about a pre-existing product listing by its ID and generate its declaration for storage on disk.
+
+Only components attached to this product listing with an "active" status will be returned.
+
+This command does not overwrite an existing file, and relies in output redirection to store the contents to disk at any location you would prefer.
+`,
+		Args: cobra.MinimumNArgs(1),
+		RunE: getProductListingRunE,
 	}
 
 	return cmd
@@ -49,11 +53,10 @@ func getProductListingRunE(cmd *cobra.Command, args []string) error {
 		L.Debug("endpoint resolved", "endpoint", endpoint)
 	}
 
-	ctx := context.Background()
 	httpClient := catalogapi.TokenAuthenticatedHTTPClient(token, L.With("name", "httpclient"))
 	client := graphql.NewClient(endpoint, httpClient)
 
-	newListing, err := catalogapi.PopulateProduct(ctx, client, productID)
+	newListing, err := catalogapi.PopulateProduct(cmd.Context(), client, productID)
 	if err != nil {
 		return err
 	}

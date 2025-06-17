@@ -265,8 +265,10 @@ func PopulateProduct(
 			return nil, err
 		}
 
+		attachedIDs := make([]string, len(associatedComponents))
 		newListing.With.Components = make([]*resource.Component, 0, len(associatedComponents))
 		for _, v := range associatedComponents {
+			attachedIDs = append(attachedIDs, v.Id)
 			converted, err := resource.JSONConvert[resource.Component](v)
 			if err != nil {
 				return nil, err
@@ -276,6 +278,23 @@ func PopulateProduct(
 		}
 
 		slices.SortStableFunc(newListing.With.Components, func(a, b *resource.Component) int { return strings.Compare(a.ID, b.ID) })
+
+		// The cert_projects field in the product listing will contain
+		// attached-but-archived components. ComponentsForListing (above)  only
+		// returns active components, so we'll true this up on the client side.
+		slices.Sort(attachedIDs)
+		slices.Sort(newListing.Spec.CertProjects)
+
+		L.Info("foo")
+		if !slices.Equal(attachedIDs, newListing.Spec.CertProjects) {
+			L.Debug("product listing has attached components that are not marked as active.")
+			L.Debug(
+				"replacing product_listing.spec.cert_projects with only attached IDs",
+				"original", newListing.Spec.CertProjects,
+				"replacement", attachedIDs,
+			)
+			newListing.Spec.CertProjects = attachedIDs
+		}
 	}
 
 	return &newListing, nil
