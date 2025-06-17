@@ -1,9 +1,17 @@
 {
     "DiscoveredImages": [
         {
-            "PodName": "pod-1",
-            "ContainerName": "container-1",
-            "Image": "example.com/registry/namespace:tag"
+            "Image": "example.com/registry/namespace:tag",
+            "Containers": [
+                {
+                    "Name": "container-1",
+                    "Type": "Container",
+                    "Pod": {
+                        "Name": "pod-1",
+                        "Namespace": "examplens"
+                    }
+                }
+            ]
         }
     ]
 }

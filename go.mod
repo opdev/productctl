@@ -7,7 +7,7 @@ require (
 	github.com/invopop/jsonschema v0.13.0
 	github.com/onsi/ginkgo/v2 v2.23.4
 	github.com/onsi/gomega v1.37.0
-	github.com/opdev/discover-workload v0.0.0-20250115205614-3233d42da6d9
+	github.com/opdev/discover-workload v0.0.0-20250613205600-4f6ee215f625
 	github.com/spf13/cobra v1.9.1
 	sigs.k8s.io/yaml v1.4.0
 )
