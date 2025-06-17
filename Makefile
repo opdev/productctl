@@ -89,6 +89,10 @@ diff-check:
 ci.fmt: fmt diff-check
 	echo "=> ci.fmt done"
 
+.PHONY: ci.generate
+ci.generate: generate diff-check
+	echo "=> ci.generate done"
+
 .PHONY: ci.tidy
 ci.tidy: tidy diff-check
 	echo "=> ci.tidy done"
