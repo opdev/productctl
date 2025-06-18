@@ -5,6 +5,7 @@
 // For the most part, this package exists to contain code-generation inputs
 // (e.g. GraphQL query definitions), and code-generation outputs (e.g. the
 // library code).
+
 package genpyxis
 
 //go:generate ../../out/genqlient

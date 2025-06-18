@@ -11,6 +11,7 @@ import (
 )
 
 // ApplyComponentResponse is returned by ApplyComponent on success.
+
 type ApplyComponentResponse struct {
 	// Partially update a certification project.
 	Update_certification_project *MutateComponentCommonResponse `json:"update_certification_project"`

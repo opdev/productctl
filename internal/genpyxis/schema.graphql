@@ -1,3 +1,4 @@
+
 directive @parse_federated_response_many on FIELD_DEFINITION | OBJECT
 
 directive @parse_federated_response_single on FIELD_DEFINITION | OBJECT
