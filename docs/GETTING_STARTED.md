@@ -54,7 +54,7 @@ with: {}
 Feel free to modify this baseline declaration how you see fit, updating the
 `name`, `descriptions`, etc.
 
-Use the **apply-product** subcommand to apply your declaration to your partner
+Use the following command to apply your declaration to your partner
 account
 
 ```bash
@@ -129,8 +129,8 @@ product listing from the server's perspective.
 
 Adding a pre-existing component to your product listing is as simple as adding
 its `_id` value to the declaration. The **productctl** tool will detect the
-ID and update your declaration locally the component's details when
-**apply-product** is called.
+ID and update your declaration locally with the component's details when you
+apply your product
 
 ```yaml
 # my.product.yaml
@@ -144,8 +144,8 @@ with:
   - _id: 12273948321321321321
 ```
 
-Run the **apply-product** subcommand to update your declaration with component
-metadata, and bind the components to your product listing.
+Run the `productctl product apply` command to update your declaration with
+component metadata, and bind the components to your product listing.
 
 ### How to remove components from a product listing
 
