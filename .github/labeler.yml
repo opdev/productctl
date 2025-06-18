@@ -1,0 +1,5 @@
+schema-update:
+  - all:
+    - base-branch: 'main'
+    - changed-files:
+      - any-glob-to-any-file: 'internal/genpyxis/{schema.graphql,generated.go}'
