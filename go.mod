@@ -9,7 +9,7 @@ require (
 	github.com/onsi/gomega v1.37.0
 	github.com/opdev/discover-workload v0.0.0-20250613205600-4f6ee215f625
 	github.com/spf13/cobra v1.9.1
-	sigs.k8s.io/yaml v1.4.0
+	sigs.k8s.io/yaml v1.5.0
 )
 
 require (
@@ -26,6 +26,7 @@ require (
 	github.com/vektah/gqlparser/v2 v2.5.22 // indirect
 	github.com/wk8/go-ordered-map/v2 v2.1.8 // indirect
 	go.uber.org/automaxprocs v1.6.0 // indirect
+	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/net v0.38.0 // indirect
 	golang.org/x/sys v0.32.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
