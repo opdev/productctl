@@ -1,48 +1,66 @@
-run:
-  # Default timeout is 1m, up to give more room
-  timeout: 4m
+version: "2"
+output:
+  formats:
+    tab:
+      path: stdout
+      colors: false
 linters:
   enable:
     - asciicheck
-    - unused
     - depguard
-    - gofumpt
-    - goimports
-    # - importas
-    - revive
     - misspell
-    - stylecheck
+    - revive
+    - staticcheck
     - tparallel
     - unconvert
     - unparam
     - whitespace
-linters-settings:
-  revive:
+  settings:
+    depguard:
+      rules:
+        main:
+          list-mode: lax
+          deny:
+            - pkg: gopkg.in/yaml
+              desc: use sigs.k8s.io/yaml
+            - pkg: github.com/hasura/go-graphql-client
+              desc: use github.com/Khan/genqlient[/graphql]
+            - pkg: github.com/shurcooL/graphql
+              desc: use github.com/Khan/genqlient[/graphql]
+    revive:
+      rules:
+        - name: dot-imports
+          arguments:
+            - allowedPackages:
+                - github.com/onsi/gomega
+                - github.com/onsi/ginkgo
+                - github.com/onsi/ginkgo/v2
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
     rules:
-      - name: dot-imports
-        arguments:
-        - allowedPackages:
-          - github.com/onsi/gomega
-          - github.com/onsi/ginkgo
-          - github.com/onsi/ginkgo/v2
-  goimports:
-    local-prefixes: github.com/opdev/productctl
-  depguard:
-    rules:
-      main:
-        list-mode: lax
-        deny:
-        - pkg: "gopkg.in/yaml"
-          desc: "use sigs.k8s.io/yaml"
-        - pkg: "github.com/hasura/go-graphql-client"
-          desc: "use github.com/Khan/genqlient[/graphql]"
-        - pkg: "github.com/shurcooL/graphql"
-          desc: "use github.com/Khan/genqlient[/graphql]"
-issues:
-  exclude-rules:
-  - path: _test.go
-    linters:
-      - errcheck
-output:
-  formats:
-    - format: tab
+      - linters:
+          - errcheck
+        path: _test.go
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofumpt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/opdev/productctl
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
