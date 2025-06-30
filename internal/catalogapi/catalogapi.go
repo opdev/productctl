@@ -38,11 +38,7 @@ func ApplyProduct(
 ) (*resource.ProductListingDeclaration, error) {
 	L := logger.FromContextOrDiscard(ctx)
 
-	updateListing := false
-
-	if declaration.Spec.HasID() {
-		updateListing = true
-	}
+	updateListing := declaration.Spec.HasID()
 
 	if !declaration.Spec.HasName() {
 		return nil, ErrMissingName
