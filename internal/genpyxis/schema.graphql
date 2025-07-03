@@ -2155,6 +2155,11 @@ type ProductListing {
   published: Boolean
 
   """
+  This field is related to store initial publish date for product listing.
+  """
+  initial_publish_date: DateTime
+
+  """
   Flag determining if product listing is considered to be deleted. Product listing can be deleted only if it is not published. Value is set to False by default.
   """
   deleted: Boolean
@@ -2962,6 +2967,7 @@ input ProductListingFilter {
   name: StringFilter
   published_history: FieldHistoryBooleanFilter
   published: BooleanFilter
+  initial_publish_date: DateTimeFilter
   deleted: BooleanFilter
   quick_start_configuration: QuickStartConfigurationFilter
   repositories_size: IntFilter
@@ -5926,6 +5932,11 @@ type ProductListingFederated {
   published: Boolean
 
   """
+  This field is related to store initial publish date for product listing.
+  """
+  initial_publish_date: DateTime
+
+  """
   Flag determining if product listing is considered to be deleted. Product listing can be deleted only if it is not published. Value is set to False by default.
   """
   deleted: Boolean
@@ -7209,6 +7220,11 @@ input ProductListingInput {
 
   """This field is required when the product listing is published."""
   published: Boolean
+
+  """
+  This field is related to store initial publish date for product listing.
+  """
+  initial_publish_date: DateTime
 
   """
   Flag determining if product listing is considered to be deleted. Product listing can be deleted only if it is not published. Value is set to False by default.

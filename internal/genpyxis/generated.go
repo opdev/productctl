@@ -1752,6 +1752,8 @@ type ProductListingInput struct {
 	Published_history *FieldHistoryBooleanInput `json:"published_history,omitempty"`
 	// This field is required when the product listing is published.
 	Published bool `json:"published,omitempty"`
+	// This field is related to store initial publish date for product listing.
+	Initial_publish_date *time.Time `json:"initial_publish_date,omitempty"`
 	// Flag determining if product listing is considered to be deleted. Product listing can be deleted only if it is not published. Value is set to False by default.
 	Deleted                   bool                          `json:"deleted,omitempty"`
 	Quick_start_configuration *QuickStartConfigurationInput `json:"quick_start_configuration,omitempty"`
@@ -1848,6 +1850,9 @@ func (v *ProductListingInput) GetPublished_history() *FieldHistoryBooleanInput {
 
 // GetPublished returns ProductListingInput.Published, and is useful for accessing the field via an interface.
 func (v *ProductListingInput) GetPublished() bool { return v.Published }
+
+// GetInitial_publish_date returns ProductListingInput.Initial_publish_date, and is useful for accessing the field via an interface.
+func (v *ProductListingInput) GetInitial_publish_date() *time.Time { return v.Initial_publish_date }
 
 // GetDeleted returns ProductListingInput.Deleted, and is useful for accessing the field via an interface.
 func (v *ProductListingInput) GetDeleted() bool { return v.Deleted }
