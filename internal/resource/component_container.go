@@ -9,6 +9,7 @@ type ContainerComponent struct {
 	Repository            string                        `json:"repository,omitempty"`
 	RepositoryDescription string                        `json:"repository_description,omitempty"`
 	RepositoryName        string                        `json:"repository_name,omitempty"`
+	ReleaseCategories     []ReleaseCategory             `json:"release_categories,omitempty" jsonschema:"enum=Generally Available,enum=Beta"`
 	ShortDescription      string                        `json:"short_description,omitempty"`
 	SupportPlatforms      []string                      `json:"support_platforms,omitempty"`
 	Type                  ContainerComponentType        `json:"type,omitempty" jsonschema:"enum=container,enum=operator bundle image"`
@@ -39,4 +40,11 @@ const (
 	ContentTypeUBI            ContainerComponentContentType = "Red Hat Universal Base Image (UBI)"
 	ContentTypeOperatorBundle ContainerComponentContentType = "Operator Bundle Image"
 	ContentTypeScratch        ContainerComponentContentType = "Scratch Image"
+)
+
+type ReleaseCategory string
+
+const (
+	ReleaseCategoryGA   ReleaseCategory = "Generally Available"
+	ReleaseCategoryBeta ReleaseCategory = "Beta"
 )
