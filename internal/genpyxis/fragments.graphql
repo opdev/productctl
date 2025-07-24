@@ -66,6 +66,7 @@ fragment ComponentSupportedFields on CertificationProject {
     long_description
     github_usernames
     distribution_method
+    application_categories
   }
   container {
     isv_pid
@@ -78,6 +79,8 @@ fragment ComponentSupportedFields on CertificationProject {
     distribution_method
     hosted_registry
     os_content_type
+    application_categories
+    build_categories
   }
   contacts {
     email_address
