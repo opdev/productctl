@@ -41,7 +41,6 @@ func (d *ProductListingDeclaration) Sanitize() {
 		if c := d.With.Components[i].Container; c != nil {
 			c.PID = ""
 		}
-		d.With.Components[i].ProjectStatus = "active"
 		d.With.Components[i].CreationDate = nil
 		d.With.Components[i].LastUpdateDate = nil
 		d.With.Components[i].CertificationDate = nil

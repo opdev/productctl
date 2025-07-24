@@ -43,9 +43,8 @@ func ComponentsFromDiscoveryManifest(manifest discovery.Manifest) ([]*resource.C
 				OSContentType:      resource.ContentTypeUBI,
 				Type:               resource.ContainerTypeContainer,
 			},
-			Name:          mostCommonContainerName,
-			ProjectStatus: resource.ProjectStatusActive,
-			Type:          resource.ComponentTypeContainer,
+			Name: mostCommonContainerName,
+			Type: resource.ComponentTypeContainer,
 		}
 
 		components = append(components, &c)

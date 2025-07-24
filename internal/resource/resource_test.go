@@ -31,7 +31,6 @@ var _ = Describe("Resource", func() {
 							CertificationDate: &time.Time{},
 							Name:              "cname",
 							OrgID:             1234,
-							ProjectStatus:     "unset",
 							Type:              resource.ComponentTypeContainer,
 							CreationDate:      &time.Time{},
 							LastUpdateDate:    &time.Time{},
@@ -59,11 +58,6 @@ var _ = Describe("Resource", func() {
 				for _, c := range declaration.With.Components {
 					Expect(c.ID).To(BeEmpty())
 					Expect(c.OrgID).To(BeZero())
-				}
-			})
-			It("should reset the component statuses", func() {
-				for _, c := range declaration.With.Components {
-					Expect(c.ProjectStatus).To(Equal(resource.ProjectStatusActive))
 				}
 			})
 			It("should leave component information intact", func() {

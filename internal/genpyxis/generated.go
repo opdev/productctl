@@ -691,6 +691,10 @@ type ComponentSupportedFieldsContainerCertProjectContainer struct {
 	Hosted_registry bool `json:"hosted_registry"`
 	// OS Content Type.
 	Os_content_type string `json:"os_content_type"`
+	// The application categories (types).
+	Application_categories []string `json:"application_categories"`
+	// This value of this field is related to certProject.type field. See ISV-2012.
+	Build_categories string `json:"build_categories"`
 }
 
 // GetIsv_pid returns ComponentSupportedFieldsContainerCertProjectContainer.Isv_pid, and is useful for accessing the field via an interface.
@@ -739,6 +743,16 @@ func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetOs_content_ty
 	return v.Os_content_type
 }
 
+// GetApplication_categories returns ComponentSupportedFieldsContainerCertProjectContainer.Application_categories, and is useful for accessing the field via an interface.
+func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetApplication_categories() []string {
+	return v.Application_categories
+}
+
+// GetBuild_categories returns ComponentSupportedFieldsContainerCertProjectContainer.Build_categories, and is useful for accessing the field via an interface.
+func (v *ComponentSupportedFieldsContainerCertProjectContainer) GetBuild_categories() string {
+	return v.Build_categories
+}
+
 // ComponentSupportedFieldsHelm_chartCertProjectHelmChart includes the requested fields of the GraphQL type CertProjectHelmChart.
 // The GraphQL type's documentation follows.
 //
@@ -756,6 +770,8 @@ type ComponentSupportedFieldsHelm_chartCertProjectHelmChart struct {
 	Github_usernames []string `json:"github_usernames"`
 	// How your Helm Chart is distributed.
 	Distribution_method string `json:"distribution_method"`
+	// The application categories (types).
+	Application_categories []string `json:"application_categories"`
 }
 
 // GetChart_name returns ComponentSupportedFieldsHelm_chartCertProjectHelmChart.Chart_name, and is useful for accessing the field via an interface.
@@ -786,6 +802,11 @@ func (v *ComponentSupportedFieldsHelm_chartCertProjectHelmChart) GetGithub_usern
 // GetDistribution_method returns ComponentSupportedFieldsHelm_chartCertProjectHelmChart.Distribution_method, and is useful for accessing the field via an interface.
 func (v *ComponentSupportedFieldsHelm_chartCertProjectHelmChart) GetDistribution_method() string {
 	return v.Distribution_method
+}
+
+// GetApplication_categories returns ComponentSupportedFieldsHelm_chartCertProjectHelmChart.Application_categories, and is useful for accessing the field via an interface.
+func (v *ComponentSupportedFieldsHelm_chartCertProjectHelmChart) GetApplication_categories() []string {
+	return v.Application_categories
 }
 
 // ComponentsForListingFind_product_listing_certification_projectsCertificationProjectPaginatedResponse includes the requested fields of the GraphQL type CertificationProjectPaginatedResponse.
@@ -2540,6 +2561,7 @@ fragment ComponentSupportedFields on CertificationProject {
 		long_description
 		github_usernames
 		distribution_method
+		application_categories
 	}
 	container {
 		isv_pid
@@ -2552,6 +2574,8 @@ fragment ComponentSupportedFields on CertificationProject {
 		distribution_method
 		hosted_registry
 		os_content_type
+		application_categories
+		build_categories
 	}
 	contacts {
 		email_address
@@ -2760,6 +2784,7 @@ fragment ComponentSupportedFields on CertificationProject {
 		long_description
 		github_usernames
 		distribution_method
+		application_categories
 	}
 	container {
 		isv_pid
@@ -2772,6 +2797,8 @@ fragment ComponentSupportedFields on CertificationProject {
 		distribution_method
 		hosted_registry
 		os_content_type
+		application_categories
+		build_categories
 	}
 	contacts {
 		email_address
@@ -2984,6 +3011,7 @@ fragment ComponentSupportedFields on CertificationProject {
 		long_description
 		github_usernames
 		distribution_method
+		application_categories
 	}
 	container {
 		isv_pid
@@ -2996,6 +3024,8 @@ fragment ComponentSupportedFields on CertificationProject {
 		distribution_method
 		hosted_registry
 		os_content_type
+		application_categories
+		build_categories
 	}
 	contacts {
 		email_address
@@ -3066,6 +3096,7 @@ fragment ComponentSupportedFields on CertificationProject {
 		long_description
 		github_usernames
 		distribution_method
+		application_categories
 	}
 	container {
 		isv_pid
@@ -3078,6 +3109,8 @@ fragment ComponentSupportedFields on CertificationProject {
 		distribution_method
 		hosted_registry
 		os_content_type
+		application_categories
+		build_categories
 	}
 	contacts {
 		email_address
