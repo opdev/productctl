@@ -7,7 +7,6 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/opdev/productctl/internal/cli"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd"
 	"github.com/opdev/productctl/internal/cmd/productctl/cmd/testutils"
 )
@@ -17,20 +16,17 @@ var _ = Describe("DeleteProductlisting", func() {
 		It("should fail if the minimum environment variables are not set", func() {
 			output, err := testutils.ExecuteCommand(cmd.RootCmd(), "util", "delete-productlisting", "foo", "--custom-endpoint", "http://localhost:9630")
 			Expect(err).To(HaveOccurred())
-			Expect(output).To(ContainSubstring(cli.ErrEnvVarMissing.Error()))
+			Expect(output).To(ContainSubstring(cmd.ErrMinOneAPITokenConfig.Error()))
 		})
 
 		When("the appropriate environment variables are in place", func() {
 			BeforeEach(func() {
-				os.Setenv(cli.EnvAPIToken, "foo")
-				os.Setenv(cli.EnvOrgID, "123")
+				os.Setenv("PRODUCTCTL_API_TOKEN", "foo")
 			})
 
 			AfterEach(func() {
-				os.Setenv(cli.EnvAPIToken, "")
-				os.Setenv(cli.EnvOrgID, "")
+				os.Setenv("PRODUCTCTL_API_TOKEN", "")
 			})
-
 			It("should reach the deletion phase, then fail", func() {
 				// Endpoint is spoofed to avoid spamming actual endpoints with requests
 				output, err := testutils.ExecuteCommand(cmd.RootCmd(), "util", "delete-productlisting", "foo", "--custom-endpoint", "http://localhost:9630")

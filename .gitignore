@@ -4,6 +4,8 @@ productctl
 !internal/cmd/productctl
 *.env
 *completion*
+# dir-local configuration
+.productctl/
 
 # Test binary, build with `go test -c`
 *.test

@@ -3,20 +3,11 @@
 You will need an established Red Hat Partner Connect account. This tool will not
 create this for you. 
 
-You'll need to set two environment variables to use `productctl`. 
-
-| Env Var | Description |
-|-|-|
-|`CONNECT_ORG_ID` |The organization you're working against. Helps in filtering queries.|
-|`CONNECT_API_TOKEN`| Your API token. Used to scope requests just to your project.|
+You will need a Connect API Token to use this tooling, set to either the
+`PRODUCTCTL_API_TOKEN` environment variable, or in your configuration file at
+the `api-token` key.
 
 ### Getting an API token:
 
 Log into Red Hat Partner Connect and access this URL:
 https://connect.redhat.com/account/api-keys
-
-### Getting your ORG ID
-
-Log into Red Hat Partner Connect and access this URL:
-https://connect.redhat.com/account/company-profile. Your ORG ID should be listed
-at the top of this UI.
