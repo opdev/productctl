@@ -18,6 +18,27 @@ Certification Components and Product Listings from your workstation.
 > - This tool is not supported by Red Hat Support.
 > - Every API used here is subject to change.
 
+## Configuration
+
+Create a configuration file at any of these locations (listed in order of precedence):
+
+- $PWD/.productctl/config.yaml
+- $XDG_CONFIG_DIR/.productctl/config.yaml
+- $HOME/.productctl/config.yaml
+
+Example contents:
+
+```yaml
+# env: PRODUCTCTL_API_TOKEN
+api-token: your-api-token
+
+# env: PRODUCTCTL_LOG_LEVEL
+log-level: "info"
+```
+
+Alternatively, you can set the environment variables mentioned in-line.
+
+## Usage
 
 ```
 Manage your Product Listing
@@ -46,14 +67,7 @@ Use "productctl product [command] --help" for more information about a command.
 
 ## High Level Workflow
 
-0) (Prereq) Make sure your environment has the necessary variables
-
-```bash
-export CONNECT_API_TOKEN=yourtoken
-export CONNECT_ORG_ID=000000000
-```
-
-1) Scaffold your new Product Listing (or fetch an existing one)
+1. Scaffold your new Product Listing (or fetch an existing one)
 
 ```bash
 productctl product create [--from-discovery-json /path/to/discovery.json] my.product.yaml
@@ -65,17 +79,17 @@ Or fetch an existing listing:
 productctl product fetch 000111222333 > my.product.yaml
 ```
 
-2) Make alterations to your Product Listing, add/remove components, etc. 
+2. Make alterations to your Product Listing, add/remove components, etc.
 
-3) Apply your Product Listing
+3. Apply your Product Listing
 
 ```bash
 productctl product apply my.product.yaml
 ```
 
-4) Repeat until all metadata is configured to your liking.
-
+4. Repeat until all metadata is configured to your liking.
 
 ## Getting Started
 
 See our [Getting Started](docs/GETTING_STARTED.md) guide.
+

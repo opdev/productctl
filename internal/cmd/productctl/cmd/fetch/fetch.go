@@ -33,7 +33,13 @@ This command does not overwrite an existing file, and relies in output redirecti
 
 func getProductListingRunE(cmd *cobra.Command, args []string) error {
 	L := logger.FromContextOrDiscard(cmd.Context())
-	_, token, err := cli.EnsureEnv()
+
+	cfg, err := cli.Config()
+	if err != nil {
+		return err
+	}
+
+	token, err := cfg.Token()
 	if err != nil {
 		return err
 	}
@@ -45,8 +51,7 @@ func getProductListingRunE(cmd *cobra.Command, args []string) error {
 		endpoint, _ = cmd.Flags().GetString(cli.FlagIDCustomEndpoint)
 		L.Debug("custom endpoint set, using it over env value", "endpoint", endpoint)
 	} else {
-		env, _ := cmd.Flags().GetString(cli.FlagIDEndpoint)
-		endpoint, err = cli.ResolveAPIEndpoint(env)
+		endpoint, err = cli.ResolveAPIEndpoint(cfg.Env)
 		if err != nil {
 			return err
 		}

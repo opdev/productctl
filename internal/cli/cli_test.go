@@ -2,9 +2,7 @@ package cli_test
 
 import (
 	"bytes"
-	"fmt"
 	"io"
-	"os"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -15,77 +13,6 @@ import (
 )
 
 var _ = Describe("CLI", func() {
-	When("ensuring the environment", func() {
-		var (
-			expectedToken string
-			expectedOrgID string
-		)
-
-		AfterEach(func() {
-			os.Setenv(cli.EnvAPIToken, "")
-			os.Setenv(cli.EnvOrgID, "")
-		})
-
-		When("the caller sets the expected environment variables", func() {
-			BeforeEach(func() {
-				expectedToken = "foo"
-				expectedOrgID = "1234"
-				os.Setenv(cli.EnvAPIToken, expectedToken)
-				os.Setenv(cli.EnvOrgID, expectedOrgID)
-			})
-			It("should return the orgID as an integer equivalent of the string input", func() {
-				resolvedOrgID, _, err := cli.EnsureEnv()
-				Expect(err).ToNot(HaveOccurred())
-				Expect(expectedOrgID).To(BeEquivalentTo(fmt.Sprintf("%d", resolvedOrgID)))
-			})
-			It("should return the token value from the environment", func() {
-				_, resolvedToken, err := cli.EnsureEnv()
-				Expect(err).ToNot(HaveOccurred())
-				Expect(resolvedToken).To(Equal(expectedToken))
-			})
-
-			When("the orgID format is not a valid integer", func() {
-				// The catalog API expects OrgID to be an integer type, but
-				// environment variables are always strings, so we do the
-				// conversion and throw an error if it doesn't succeed.
-				//
-				// This also implies that OrgIDs can't lead with 0 because
-				// integer conversion would drop that. Therefore, we assume
-				// OrgIDs can never have a leading 0.
-				BeforeEach(func() {
-					expectedOrgID = "abcd"
-					os.Setenv(cli.EnvOrgID, expectedOrgID)
-				})
-				It("should throw an error indicating the value is malformed", func() {
-					_, _, err := cli.EnsureEnv()
-					Expect(err).To(MatchError(cli.ErrEnvVarInvalidFormat))
-				})
-			})
-		})
-
-		When("the caller is missing the token", func() {
-			BeforeEach(func() {
-				os.Setenv(cli.EnvAPIToken, "")
-				os.Setenv(cli.EnvOrgID, "1234")
-			})
-			It("should throw the expected error when the token is missing", func() {
-				_, _, err := cli.EnsureEnv()
-				Expect(err).To(MatchError(cli.ErrEnvVarMissing))
-			})
-		})
-
-		When("the caller is missing the orgID", func() {
-			BeforeEach(func() {
-				os.Setenv(cli.EnvAPIToken, "foo")
-				os.Setenv(cli.EnvOrgID, "")
-			})
-			It("should throw the expected error when the org ID is missing", func() {
-				_, _, err := cli.EnsureEnv()
-				Expect(err).To(MatchError(cli.ErrEnvVarMissing))
-			})
-		})
-	})
-
 	When("configuring the logger", func() {
 		var (
 			loglevel  string
