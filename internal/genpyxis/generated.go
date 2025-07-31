@@ -464,6 +464,8 @@ type CertificationProjectInput struct {
 	Badges []string `json:"badges,omitempty"`
 	// Certification project type.
 	Type string `json:"type,omitempty"`
+	// Catalog Visibility.
+	Catalog_visibility string `json:"catalog_visibility,omitempty"`
 	// MongoDB unique _id
 	Id string `json:"_id,omitempty"`
 	// The date when the entry was created. Value is created automatically on creation.
@@ -551,6 +553,9 @@ func (v *CertificationProjectInput) GetBadges() []string { return v.Badges }
 
 // GetType returns CertificationProjectInput.Type, and is useful for accessing the field via an interface.
 func (v *CertificationProjectInput) GetType() string { return v.Type }
+
+// GetCatalog_visibility returns CertificationProjectInput.Catalog_visibility, and is useful for accessing the field via an interface.
+func (v *CertificationProjectInput) GetCatalog_visibility() string { return v.Catalog_visibility }
 
 // GetId returns CertificationProjectInput.Id, and is useful for accessing the field via an interface.
 func (v *CertificationProjectInput) GetId() string { return v.Id }
