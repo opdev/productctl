@@ -1091,6 +1091,11 @@ type ContainerRepository {
   """Catalog Visibility."""
   catalog_visibility: String
 
+  """
+  Red Hat Org ID / account_id from Red Hat SSO. Also corresponds to company_org_id in Red Hat Connect.
+  """
+  org_id: Int
+
   """MongoDB unique _id"""
   _id: ObjectID
 
@@ -3593,6 +3598,7 @@ input ContainerRepositoryFilter {
   vendor_label: StringFilter
   marketplace: ContainerRepositoryMarketplaceFilter
   catalog_visibility: StringFilter
+  org_id: IntFilter
   _id: ObjectIDFilter
   creation_date: DateTimeFilter
   last_update_date: DateTimeFilter
@@ -5828,6 +5834,11 @@ type ContainerRepositoryFederated {
 
   """Catalog Visibility."""
   catalog_visibility: String
+
+  """
+  Red Hat Org ID / account_id from Red Hat SSO. Also corresponds to company_org_id in Red Hat Connect.
+  """
+  org_id: Int
 
   """MongoDB unique _id"""
   _id: ObjectID
