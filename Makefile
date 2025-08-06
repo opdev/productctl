@@ -16,7 +16,9 @@ BIN_COMMIT  = $(shell git rev-parse HEAD)
 bin:
 	CGO_ENABLED=0 go build \
 		-o $(BIN_FILE) \
+		-trimpath \
 		-ldflags "\
+			-s -w \
 			-X github.com/opdev/productctl/internal/version.commit=$(BIN_COMMIT) \
 			-X github.com/opdev/productctl/internal/version.version=$(BIN_VERSION)" \
 		./internal/cmd/productctl
