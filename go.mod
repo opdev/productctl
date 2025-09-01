@@ -9,7 +9,7 @@ require (
 	github.com/onsi/gomega v1.38.2
 	github.com/opdev/discover-workload v0.0.0-20250613205600-4f6ee215f625
 	github.com/spf13/cobra v1.9.1
-	github.com/spf13/pflag v1.0.7
+	github.com/spf13/pflag v1.0.8
 	github.com/spf13/viper v1.20.1
 	sigs.k8s.io/yaml v1.6.0
 )
