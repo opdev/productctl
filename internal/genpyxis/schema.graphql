@@ -2460,6 +2460,9 @@ type ProductListingEdges {
 
   """Get product validations by product listing _id."""
   product_validations(id: ObjectIDFilterScalar, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ProductValidationFilter): ProductValidationPaginatedResponse
+
+  """Get all repositories belonging to product listing."""
+  repositories(id: ObjectIDFilterScalar, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ContainerRepositoryFilter): ContainerRepositoryPaginatedResponse
 }
 
 type CertificationProjectPaginatedResponse {
@@ -2950,6 +2953,257 @@ input RedHatProductAffinityListFilter {
 input RedHatProductAffinityListIndexFilter {
   condition: RedHatProductAffinityFilter
   index: Int
+}
+
+type ContainerRepositoryPaginatedResponse {
+  data: [ContainerRepository]
+  error: ResponseError
+  page: Int
+  page_size: Int
+  total: Int
+}
+
+input ContainerRepositoryFilter {
+  application_categories_size: IntFilter
+  application_categories: StringListFilter
+  architectures_size: IntFilter
+  architectures: StringListFilter
+  auto_rebuild_tags_size: IntFilter
+  auto_rebuild_tags: StringListFilter
+  build_categories_size: IntFilter
+  build_categories: StringListFilter
+  can_auto_release_cve_rebuild: BooleanFilter
+  cdn_base_url: URIFilter
+  content_stream_grades_size: IntFilter
+  content_stream_grades_elemMatch: RepositoryContentStreamGradesElemMatchFilter
+  content_stream_grades: RepositoryContentStreamGradesListFilter
+  content_stream_tags_size: IntFilter
+  content_stream_tags: StringListFilter
+  description: StringFilter
+  display_data: RepositoryDisplayDataFilter
+  documentation_links_size: IntFilter
+  documentation_links_elemMatch: RepositoryDocumentationLinkElemMatchFilter
+  documentation_links: RepositoryDocumentationLinkListFilter
+  entitlement_enabled: BooleanFilter
+  engineering_ids_size: IntFilter
+  engineering_ids: StringListFilter
+  fbc_opt_in: BooleanFilter
+  eol_date: DateTimeFilter
+  freshness_grades_unknown_until_date: DateTimeFilter
+  includes_multiple_content_streams: BooleanFilter
+  is_community_supported: BooleanFilter
+  isv_pid: StringFilter
+  metadata_source: StringFilter
+  metrics: RepositoryMetricsFilter
+  namespace: StringFilter
+  non_production_only: BooleanFilter
+  object_type: StringFilter
+  privileged_images_allowed: BooleanFilter
+  prm_project_id: StringFilter
+  product_listings_size: IntFilter
+  product_listings: ObjectIDListFilter
+  product_versions_size: IntFilter
+  product_versions: StringListFilter
+  protected_for_pull: BooleanFilter
+  protected_for_search: BooleanFilter
+  published: BooleanFilter
+  registry: StringFilter
+  registry_target: StringFilter
+  release_categories_size: IntFilter
+  release_categories: StringListFilter
+  replaced_by_repository_name: StringFilter
+  repository: StringFilter
+  requires_terms: BooleanFilter
+  runs_on: RepositoryRunsOnFilter
+  source_container_image_enabled: BooleanFilter
+  support_levels_size: IntFilter
+  support_levels: StringListFilter
+  total_size_bytes: Int64Filter
+  total_uncompressed_size_bytes: Int64Filter
+  ui_get_this_image_override: StringFilter
+  use_latest: BooleanFilter
+  vendor_label: StringFilter
+  marketplace: ContainerRepositoryMarketplaceFilter
+  catalog_visibility: StringFilter
+  org_id: IntFilter
+  _id: ObjectIDFilter
+  creation_date: DateTimeFilter
+  last_update_date: DateTimeFilter
+  eq: NULL
+  ne: NULL
+  and: [ContainerRepositoryFilter]
+  or: [ContainerRepositoryFilter]
+  nor: [ContainerRepositoryFilter]
+  not: ContainerRepositoryFilter
+}
+
+input RepositoryContentStreamGradesElemMatchFilter {
+  and: [RepositoryContentStreamGradesFilter]
+  or: [RepositoryContentStreamGradesFilter]
+  nor: [RepositoryContentStreamGradesFilter]
+  not: RepositoryContentStreamGradesFilter
+}
+
+input RepositoryContentStreamGradesFilter {
+  tag: StringFilter
+  grade: StringFilter
+  image_ids_size: IntFilter
+  image_ids_elemMatch: GradesImageIdsElemMatchFilter
+  image_ids: GradesImageIdsListFilter
+  eq: NULL
+  ne: NULL
+  and: [RepositoryContentStreamGradesFilter]
+  or: [RepositoryContentStreamGradesFilter]
+  nor: [RepositoryContentStreamGradesFilter]
+  not: RepositoryContentStreamGradesFilter
+}
+
+input GradesImageIdsElemMatchFilter {
+  and: [GradesImageIdsFilter]
+  or: [GradesImageIdsFilter]
+  nor: [GradesImageIdsFilter]
+  not: GradesImageIdsFilter
+}
+
+input GradesImageIdsFilter {
+  id: StringFilter
+  arch: StringFilter
+  eq: NULL
+  ne: NULL
+  and: [GradesImageIdsFilter]
+  or: [GradesImageIdsFilter]
+  nor: [GradesImageIdsFilter]
+  not: GradesImageIdsFilter
+}
+
+input GradesImageIdsListFilter {
+  list_index_filter: GradesImageIdsListIndexFilter
+  id: StringFilter
+  arch: StringFilter
+  eq: NULL
+  ne: NULL
+  and: [GradesImageIdsFilter]
+  or: [GradesImageIdsFilter]
+  nor: [GradesImageIdsFilter]
+  not: GradesImageIdsFilter
+}
+
+input GradesImageIdsListIndexFilter {
+  condition: GradesImageIdsFilter
+  index: Int
+}
+
+input RepositoryContentStreamGradesListFilter {
+  list_index_filter: RepositoryContentStreamGradesListIndexFilter
+  tag: StringFilter
+  grade: StringFilter
+  image_ids_size: IntFilter
+  image_ids_elemMatch: GradesImageIdsElemMatchFilter
+  image_ids: GradesImageIdsListFilter
+  eq: NULL
+  ne: NULL
+  and: [RepositoryContentStreamGradesFilter]
+  or: [RepositoryContentStreamGradesFilter]
+  nor: [RepositoryContentStreamGradesFilter]
+  not: RepositoryContentStreamGradesFilter
+}
+
+input RepositoryContentStreamGradesListIndexFilter {
+  condition: RepositoryContentStreamGradesFilter
+  index: Int
+}
+
+input RepositoryDisplayDataFilter {
+  long_description: StringFilter
+  long_description_markdown: StringFilter
+  name: StringFilter
+  openshift_tags: StringFilter
+  short_description: StringFilter
+  eq: NULL
+  ne: NULL
+  and: [RepositoryDisplayDataFilter]
+  or: [RepositoryDisplayDataFilter]
+  nor: [RepositoryDisplayDataFilter]
+  not: RepositoryDisplayDataFilter
+}
+
+input RepositoryDocumentationLinkElemMatchFilter {
+  and: [RepositoryDocumentationLinkFilter]
+  or: [RepositoryDocumentationLinkFilter]
+  nor: [RepositoryDocumentationLinkFilter]
+  not: RepositoryDocumentationLinkFilter
+}
+
+input RepositoryDocumentationLinkFilter {
+  title: StringFilter
+  type: StringFilter
+  url: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [RepositoryDocumentationLinkFilter]
+  or: [RepositoryDocumentationLinkFilter]
+  nor: [RepositoryDocumentationLinkFilter]
+  not: RepositoryDocumentationLinkFilter
+}
+
+input RepositoryDocumentationLinkListFilter {
+  list_index_filter: RepositoryDocumentationLinkListIndexFilter
+  title: StringFilter
+  type: StringFilter
+  url: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [RepositoryDocumentationLinkFilter]
+  or: [RepositoryDocumentationLinkFilter]
+  nor: [RepositoryDocumentationLinkFilter]
+  not: RepositoryDocumentationLinkFilter
+}
+
+input RepositoryDocumentationLinkListIndexFilter {
+  condition: RepositoryDocumentationLinkFilter
+  index: Int
+}
+
+input RepositoryMetricsFilter {
+  last_update_date: DateTimeFilter
+  pulls_in_last_30_days: IntFilter
+  eq: NULL
+  ne: NULL
+  and: [RepositoryMetricsFilter]
+  or: [RepositoryMetricsFilter]
+  nor: [RepositoryMetricsFilter]
+  not: RepositoryMetricsFilter
+}
+
+input RepositoryRunsOnFilter {
+  openshift_online: BooleanFilter
+  eq: NULL
+  ne: NULL
+  and: [RepositoryRunsOnFilter]
+  or: [RepositoryRunsOnFilter]
+  nor: [RepositoryRunsOnFilter]
+  not: RepositoryRunsOnFilter
+}
+
+input Int64Filter {
+  eq: Int64
+  ne: Int64
+  le: Int64
+  lt: Int64
+  ge: Int64
+  gt: Int64
+  in: [Int64]
+  out: [Int64]
+}
+
+input ContainerRepositoryMarketplaceFilter {
+  listing_url: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [ContainerRepositoryMarketplaceFilter]
+  or: [ContainerRepositoryMarketplaceFilter]
+  nor: [ContainerRepositoryMarketplaceFilter]
+  not: ContainerRepositoryMarketplaceFilter
 }
 
 input ProductListingFilter {
@@ -3526,257 +3780,6 @@ input ValidationItemsListFilter {
 input ValidationItemsListIndexFilter {
   condition: ValidationItemsFilter
   index: Int
-}
-
-type ContainerRepositoryPaginatedResponse {
-  data: [ContainerRepository]
-  error: ResponseError
-  page: Int
-  page_size: Int
-  total: Int
-}
-
-input ContainerRepositoryFilter {
-  application_categories_size: IntFilter
-  application_categories: StringListFilter
-  architectures_size: IntFilter
-  architectures: StringListFilter
-  auto_rebuild_tags_size: IntFilter
-  auto_rebuild_tags: StringListFilter
-  build_categories_size: IntFilter
-  build_categories: StringListFilter
-  can_auto_release_cve_rebuild: BooleanFilter
-  cdn_base_url: URIFilter
-  content_stream_grades_size: IntFilter
-  content_stream_grades_elemMatch: RepositoryContentStreamGradesElemMatchFilter
-  content_stream_grades: RepositoryContentStreamGradesListFilter
-  content_stream_tags_size: IntFilter
-  content_stream_tags: StringListFilter
-  description: StringFilter
-  display_data: RepositoryDisplayDataFilter
-  documentation_links_size: IntFilter
-  documentation_links_elemMatch: RepositoryDocumentationLinkElemMatchFilter
-  documentation_links: RepositoryDocumentationLinkListFilter
-  entitlement_enabled: BooleanFilter
-  engineering_ids_size: IntFilter
-  engineering_ids: StringListFilter
-  fbc_opt_in: BooleanFilter
-  eol_date: DateTimeFilter
-  freshness_grades_unknown_until_date: DateTimeFilter
-  includes_multiple_content_streams: BooleanFilter
-  is_community_supported: BooleanFilter
-  isv_pid: StringFilter
-  metadata_source: StringFilter
-  metrics: RepositoryMetricsFilter
-  namespace: StringFilter
-  non_production_only: BooleanFilter
-  object_type: StringFilter
-  privileged_images_allowed: BooleanFilter
-  prm_project_id: StringFilter
-  product_listings_size: IntFilter
-  product_listings: ObjectIDListFilter
-  product_versions_size: IntFilter
-  product_versions: StringListFilter
-  protected_for_pull: BooleanFilter
-  protected_for_search: BooleanFilter
-  published: BooleanFilter
-  registry: StringFilter
-  registry_target: StringFilter
-  release_categories_size: IntFilter
-  release_categories: StringListFilter
-  replaced_by_repository_name: StringFilter
-  repository: StringFilter
-  requires_terms: BooleanFilter
-  runs_on: RepositoryRunsOnFilter
-  source_container_image_enabled: BooleanFilter
-  support_levels_size: IntFilter
-  support_levels: StringListFilter
-  total_size_bytes: Int64Filter
-  total_uncompressed_size_bytes: Int64Filter
-  ui_get_this_image_override: StringFilter
-  use_latest: BooleanFilter
-  vendor_label: StringFilter
-  marketplace: ContainerRepositoryMarketplaceFilter
-  catalog_visibility: StringFilter
-  org_id: IntFilter
-  _id: ObjectIDFilter
-  creation_date: DateTimeFilter
-  last_update_date: DateTimeFilter
-  eq: NULL
-  ne: NULL
-  and: [ContainerRepositoryFilter]
-  or: [ContainerRepositoryFilter]
-  nor: [ContainerRepositoryFilter]
-  not: ContainerRepositoryFilter
-}
-
-input RepositoryContentStreamGradesElemMatchFilter {
-  and: [RepositoryContentStreamGradesFilter]
-  or: [RepositoryContentStreamGradesFilter]
-  nor: [RepositoryContentStreamGradesFilter]
-  not: RepositoryContentStreamGradesFilter
-}
-
-input RepositoryContentStreamGradesFilter {
-  tag: StringFilter
-  grade: StringFilter
-  image_ids_size: IntFilter
-  image_ids_elemMatch: GradesImageIdsElemMatchFilter
-  image_ids: GradesImageIdsListFilter
-  eq: NULL
-  ne: NULL
-  and: [RepositoryContentStreamGradesFilter]
-  or: [RepositoryContentStreamGradesFilter]
-  nor: [RepositoryContentStreamGradesFilter]
-  not: RepositoryContentStreamGradesFilter
-}
-
-input GradesImageIdsElemMatchFilter {
-  and: [GradesImageIdsFilter]
-  or: [GradesImageIdsFilter]
-  nor: [GradesImageIdsFilter]
-  not: GradesImageIdsFilter
-}
-
-input GradesImageIdsFilter {
-  id: StringFilter
-  arch: StringFilter
-  eq: NULL
-  ne: NULL
-  and: [GradesImageIdsFilter]
-  or: [GradesImageIdsFilter]
-  nor: [GradesImageIdsFilter]
-  not: GradesImageIdsFilter
-}
-
-input GradesImageIdsListFilter {
-  list_index_filter: GradesImageIdsListIndexFilter
-  id: StringFilter
-  arch: StringFilter
-  eq: NULL
-  ne: NULL
-  and: [GradesImageIdsFilter]
-  or: [GradesImageIdsFilter]
-  nor: [GradesImageIdsFilter]
-  not: GradesImageIdsFilter
-}
-
-input GradesImageIdsListIndexFilter {
-  condition: GradesImageIdsFilter
-  index: Int
-}
-
-input RepositoryContentStreamGradesListFilter {
-  list_index_filter: RepositoryContentStreamGradesListIndexFilter
-  tag: StringFilter
-  grade: StringFilter
-  image_ids_size: IntFilter
-  image_ids_elemMatch: GradesImageIdsElemMatchFilter
-  image_ids: GradesImageIdsListFilter
-  eq: NULL
-  ne: NULL
-  and: [RepositoryContentStreamGradesFilter]
-  or: [RepositoryContentStreamGradesFilter]
-  nor: [RepositoryContentStreamGradesFilter]
-  not: RepositoryContentStreamGradesFilter
-}
-
-input RepositoryContentStreamGradesListIndexFilter {
-  condition: RepositoryContentStreamGradesFilter
-  index: Int
-}
-
-input RepositoryDisplayDataFilter {
-  long_description: StringFilter
-  long_description_markdown: StringFilter
-  name: StringFilter
-  openshift_tags: StringFilter
-  short_description: StringFilter
-  eq: NULL
-  ne: NULL
-  and: [RepositoryDisplayDataFilter]
-  or: [RepositoryDisplayDataFilter]
-  nor: [RepositoryDisplayDataFilter]
-  not: RepositoryDisplayDataFilter
-}
-
-input RepositoryDocumentationLinkElemMatchFilter {
-  and: [RepositoryDocumentationLinkFilter]
-  or: [RepositoryDocumentationLinkFilter]
-  nor: [RepositoryDocumentationLinkFilter]
-  not: RepositoryDocumentationLinkFilter
-}
-
-input RepositoryDocumentationLinkFilter {
-  title: StringFilter
-  type: StringFilter
-  url: URIFilter
-  eq: NULL
-  ne: NULL
-  and: [RepositoryDocumentationLinkFilter]
-  or: [RepositoryDocumentationLinkFilter]
-  nor: [RepositoryDocumentationLinkFilter]
-  not: RepositoryDocumentationLinkFilter
-}
-
-input RepositoryDocumentationLinkListFilter {
-  list_index_filter: RepositoryDocumentationLinkListIndexFilter
-  title: StringFilter
-  type: StringFilter
-  url: URIFilter
-  eq: NULL
-  ne: NULL
-  and: [RepositoryDocumentationLinkFilter]
-  or: [RepositoryDocumentationLinkFilter]
-  nor: [RepositoryDocumentationLinkFilter]
-  not: RepositoryDocumentationLinkFilter
-}
-
-input RepositoryDocumentationLinkListIndexFilter {
-  condition: RepositoryDocumentationLinkFilter
-  index: Int
-}
-
-input RepositoryMetricsFilter {
-  last_update_date: DateTimeFilter
-  pulls_in_last_30_days: IntFilter
-  eq: NULL
-  ne: NULL
-  and: [RepositoryMetricsFilter]
-  or: [RepositoryMetricsFilter]
-  nor: [RepositoryMetricsFilter]
-  not: RepositoryMetricsFilter
-}
-
-input RepositoryRunsOnFilter {
-  openshift_online: BooleanFilter
-  eq: NULL
-  ne: NULL
-  and: [RepositoryRunsOnFilter]
-  or: [RepositoryRunsOnFilter]
-  nor: [RepositoryRunsOnFilter]
-  not: RepositoryRunsOnFilter
-}
-
-input Int64Filter {
-  eq: Int64
-  ne: Int64
-  le: Int64
-  lt: Int64
-  ge: Int64
-  gt: Int64
-  in: [Int64]
-  out: [Int64]
-}
-
-input ContainerRepositoryMarketplaceFilter {
-  listing_url: URIFilter
-  eq: NULL
-  ne: NULL
-  and: [ContainerRepositoryMarketplaceFilter]
-  or: [ContainerRepositoryMarketplaceFilter]
-  nor: [ContainerRepositoryMarketplaceFilter]
-  not: ContainerRepositoryMarketplaceFilter
 }
 
 type ContainerImagePaginatedResponse {
