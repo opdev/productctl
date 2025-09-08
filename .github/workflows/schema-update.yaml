@@ -55,6 +55,7 @@ jobs:
 
             gh pr create --repo "${GITHUB_REPOSITORY}" \
                          --title "Update generated schema and code for Pyxis" \
+                         --label schema-update \
                          --body "${PR_BODY}" \
                          --base "${BASE_BRANCH}" \
                          --head "pyxis-schema-update-${timestamp}"
