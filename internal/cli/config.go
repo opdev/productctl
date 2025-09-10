@@ -3,7 +3,6 @@ package cli
 import (
 	"errors"
 	"fmt"
-	"io"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -67,25 +66,30 @@ func (cfg *UserConfig) Token() (string, error) {
 	}
 
 	if cfg.APITokenFile != "" {
-		return cfg.readTokenFile(os.DirFS("."))
+		relativeTokenFilePath, err := filepath.Rel("/", cfg.APITokenFile)
+		if err != nil {
+			return "", errors.New("token file path appears invalid")
+		}
+
+		baseDir, err := os.OpenRoot("/")
+		if err != nil {
+			return "", errors.New("internal error resolving the root of the filesystem")
+		}
+		return cfg.readTokenFile(baseDir.FS(), relativeTokenFilePath)
 	}
 
 	return "", errors.New("no API token configuration found in config file")
 }
 
-func (cfg *UserConfig) readTokenFile(fs fs.FS) (string, error) {
-	file, err := fs.Open(cfg.APITokenFile)
-	if err != nil {
-		return "", err
-	}
-	defer file.Close()
+var ErrReadingTokenFile = errors.New("unable to read token file")
 
-	token, err := io.ReadAll(file)
+func (cfg *UserConfig) readTokenFile(baseFS fs.FS, relativeTokenFilePath string) (string, error) {
+	token, err := fs.ReadFile(baseFS, relativeTokenFilePath)
 	if err != nil {
-		return "", err
+		return "", errors.Join(ErrReadingTokenFile, err)
 	}
 
-	return string(token), nil
+	return strings.TrimSpace(string(token)), nil
 }
 
 // initConfig initializes the CLI configuration instance, environment variables,

@@ -108,8 +108,7 @@ var _ = Describe("Config", func() {
 						APITokenFile: "token.txt", // Relative path for the tempDirFS
 					}
 
-					// Test the readTokenFile method directly with our tempDirFS
-					token, err := cfg.readTokenFile(tempDirFS{baseDir: tempDir})
+					token, err := cfg.readTokenFile(tempDirFS{baseDir: tempDir}, cfg.APITokenFile)
 					Expect(err).ToNot(HaveOccurred())
 					Expect(token).To(Equal("file-token-content"))
 				})
@@ -120,8 +119,7 @@ var _ = Describe("Config", func() {
 						APITokenFile: "token.txt", // Relative path for the tempDirFS
 					}
 
-					// Test the readTokenFile method directly with our tempDirFS
-					token, err := cfg.readTokenFile(tempDirFS{baseDir: tempDir})
+					token, err := cfg.readTokenFile(tempDirFS{baseDir: tempDir}, cfg.APITokenFile)
 					Expect(err).ToNot(HaveOccurred())
 					Expect(token).To(Equal("file-token-content"))
 
