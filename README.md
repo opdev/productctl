@@ -23,7 +23,7 @@ Certification Components and Product Listings from your workstation.
 Create a configuration file at any of these locations (listed in order of precedence):
 
 - $PWD/.productctl/config.yaml
-- $XDG_CONFIG_DIR/.productctl/config.yaml
+- $XDG_CONFIG_DIR/productctl/config.yaml
 - $HOME/.productctl/config.yaml
 
 Example contents:
