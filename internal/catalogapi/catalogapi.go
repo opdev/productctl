@@ -261,7 +261,7 @@ func PopulateProduct(
 			return nil, err
 		}
 
-		attachedIDs := make([]string, len(associatedComponents))
+		attachedIDs := make([]string, 0, len(associatedComponents))
 		newListing.With.Components = make([]*resource.Component, 0, len(associatedComponents))
 		for _, v := range associatedComponents {
 			attachedIDs = append(attachedIDs, v.Id)
@@ -281,7 +281,6 @@ func PopulateProduct(
 		slices.Sort(attachedIDs)
 		slices.Sort(newListing.Spec.CertProjects)
 
-		L.Info("foo")
 		if !slices.Equal(attachedIDs, newListing.Spec.CertProjects) {
 			L.Debug("product listing has attached components that are not marked as active.")
 			L.Debug(
