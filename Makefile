@@ -41,14 +41,11 @@ generate.graphql: install.genqlient
 ### Generating Catalog API GraphQL Schema
 .PHONY: generate.schema
 generate.schema: schemagen-venv
-	$(SCHEMAGEN_VENV_BIN_DIR)/python3 scripts/generate-schema/generate-schema.py > internal/genpyxis/schema.graphql
+	uv --directory scripts/generate-schema run generate-schema.py > internal/genpyxis/schema.graphql
 
-SCHEMAGEN_VENV_DIR = $(OUT_DIR)/generate-schema-venv
-SCHEMAGEN_VENV_BIN_DIR = $(OUT_DIR)/generate-schema-venv/bin
 .PHONY: schemagen-venv
 schemagen-venv:
-	python3 -m venv $(SCHEMAGEN_VENV_DIR)
-	$(SCHEMAGEN_VENV_BIN_DIR)/pip3 install -r scripts/generate-schema/requirements.txt
+	uv --directory scripts/generate-schema sync --frozen
 
 ### Enforcing Project Standards
 .PHONY: lint
