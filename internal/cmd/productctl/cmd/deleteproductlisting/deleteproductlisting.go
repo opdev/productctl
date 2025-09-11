@@ -15,7 +15,7 @@ import (
 func Command() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete-productlisting <productID>",
-		Short: "Deletes the product listingwith the specified product ID.",
+		Short: "Deletes the product listing with the specified product ID.",
 		Long: `Deletes the product listing with the specified product ID
 
 This should be considered a destructive operation. Note that there are various reasons why the API may reject this operation. Those reasons may need to be handled directly via the Partner Connect UI.
