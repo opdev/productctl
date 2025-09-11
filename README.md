@@ -3,19 +3,15 @@
 A power tool for [Red Hat Software Certification
 Partners](https://connect.redhat.com/en/benefits).
 
-The `productctl` utility allows Red Hat Software Certification Partners to
-easily iterate on the definition of their product listings in a familiar way.
-
-This tooling is intended for Red Hat Software Certification Partners who are
-working through the Software Certification Process for Containers, Helm Charts,
-and Operators. It will allow you to populate much of the metadata about your
-Certification Components and Product Listings from your workstation.
+Use `productctl` to create and iterate on your Red Hat Certified Product listing
+metadata from the comfort of your favorite text editor. Then, apply your changes
+and validate your content from your Partner dashboard.
 
 > [!CAUTION]
 > 
 > - This utility is in **very early development**.
 > - Users will assume all risk of using this tooling, including overwriting product metadata.
-> - This tool is not supported by Red Hat Support.
+> - This tool is not officially supported by Red Hat Support.
 > - Every API used here is subject to change.
 
 ## Configuration

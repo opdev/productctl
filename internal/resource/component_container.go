@@ -15,11 +15,11 @@ type ContainerComponent struct {
 	// actually contain multiple values.
 	BuildCategory         BuildCategory                 `json:"build_categories,omitempty" jsonschema:"enum=Standalone image,enum=Component image,enum=Operator image,enum=Operator bundle"`
 	DistributionMethod    ContainerDistributionMethod   `json:"distribution_method,omitempty" jsonschema:"enum=rhcc,enum=external,enum=non_registry,enum=marketplace_only"`
-	PID                   string                        `json:"isv_pid,omitempty"`
+	PID                   string                        `json:"isv_pid,omitempty" jsonschema:"description=This value will be set for you"`
 	OSContentType         ContainerComponentContentType `json:"os_content_type,omitempty" jsonschema:"enum=Red Hat Enterprise Linux,enum=Red Hat Universal Base Image (UBI),enum=Operator Bundle Image,enum=Scratch Image"`
-	Privileged            *bool                         `json:"privileged,omitempty"`
-	Registry              string                        `json:"registry,omitempty"`
-	Repository            string                        `json:"repository,omitempty"`
+	Privileged            *bool                         `json:"privileged,omitempty" jsonschema:"description=Whether your container user is root"`
+	Registry              string                        `json:"registry,omitempty" jsonschema:"description=The registry hosting your image. E.g. quay.io."`
+	Repository            string                        `json:"repository,omitempty" jsonschema:"description=The org/repository for your image. E.g. my-org/my-image."`
 	RepositoryDescription string                        `json:"repository_description,omitempty"`
 	RepositoryName        string                        `json:"repository_name,omitempty"`
 	ReleaseCategories     []ReleaseCategory             `json:"release_categories,omitempty" jsonschema:"enum=Generally Available,enum=Beta"`

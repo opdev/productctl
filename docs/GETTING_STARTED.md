@@ -20,10 +20,10 @@ productctl completion bash > completion.sh && source completion.sh
 
 We highly recommend leveraging the included jsonschema to help you write your
 Product Listings. Ultimately, we're manipulating large-ish YAML documents with
-some fields that have enumerations with which you may not be familiar off-hand.
-We strive to give you as much insight as we can from within your editor. The
-easiest way we've found to do this is to provide you with a jsonschema that can
-be used with a YAML language server of your choosing.
+some fields that have enumerations with which you may not be familiar. We strive
+to give you as much insight as we can from within your editor. The easiest way
+we've found to do this is to provide you with a jsonschema that can be used with
+a YAML language server of your choosing.
 
 See [Enabling IDE integration](./USING_JSONSCHEMA.md) for more information on how to configure this.
 
@@ -61,7 +61,7 @@ account
 productctl product apply my.product.yaml
 ```
 
-If you log into productctl, you should then see your product listing.
+If you log into your partner dashboard, you should then see your product listing.
 Continue iterating on your listing until it is ready for publishing.
 
 ### Creating a product listing from [discovered workloads](https://github.com/opdev/discover-workload)
@@ -75,7 +75,7 @@ namespaces, and with specified filters. You can then use this information to use
 as a starting point for your scaffolded Product Listing. See the linked projects
 for more details.
 
-Once you've generated a discover file, you can pass this to **productctl** when
+Once you've generated a discovery file, you can pass this to **productctl** when
 scaffolding your resource.
 
 ```bash
@@ -185,6 +185,16 @@ for instructions on how to do this.
 The **productctl** command only allow for a subset of all operations you might
 need to do against a given Product Listing or Component. For everything else,
 you'll need to log into your Red Hat Partner Connect Dashboard.
+
+
+### Known Issues 
+
+#### Inability to remove certain fields from `productctl`
+
+In some cases, you may not be able to remove the value of some keys in the
+Product declaration from `productctl` by deleting the value from your
+declaration. If you need to remove some data associated with a configuration
+key, you may need to do so via your Partner Dashboard.
 
 ## What to do Next
 
