@@ -2534,7 +2534,7 @@ func (v *__SetComponentsForProductInput) GetProductID() string { return v.Produc
 // GetComponentIDs returns __SetComponentsForProductInput.ComponentIDs, and is useful for accessing the field via an interface.
 func (v *__SetComponentsForProductInput) GetComponentIDs() []string { return v.ComponentIDs }
 
-// The query or mutation executed by ApplyComponent.
+// The mutation executed by ApplyComponent.
 const ApplyComponent_Operation = `
 mutation ApplyComponent ($componentID: ObjectIDFilterScalar, $updated: CertificationProjectInput) {
 	update_certification_project(id: $componentID, input: $updated) {
@@ -2594,7 +2594,7 @@ func ApplyComponent(
 	client_ graphql.Client,
 	componentID string,
 	updated *CertificationProjectInput,
-) (*ApplyComponentResponse, error) {
+) (data_ *ApplyComponentResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "ApplyComponent",
 		Query:  ApplyComponent_Operation,
@@ -2603,10 +2603,9 @@ func ApplyComponent(
 			Updated:     updated,
 		},
 	}
-	var err_ error
 
-	var data_ ApplyComponentResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &ApplyComponentResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -2614,10 +2613,10 @@ func ApplyComponent(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by ApplyProductListing.
+// The mutation executed by ApplyProductListing.
 const ApplyProductListing_Operation = `
 mutation ApplyProductListing ($id: ObjectIDFilterScalar, $update: ProductListingInput!) {
 	update_product_listing(id: $id, input: $update) {
@@ -2691,7 +2690,7 @@ func ApplyProductListing(
 	client_ graphql.Client,
 	id string,
 	update *ProductListingInput,
-) (*ApplyProductListingResponse, error) {
+) (data_ *ApplyProductListingResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "ApplyProductListing",
 		Query:  ApplyProductListing_Operation,
@@ -2700,10 +2699,9 @@ func ApplyProductListing(
 			Update: update,
 		},
 	}
-	var err_ error
 
-	var data_ ApplyProductListingResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &ApplyProductListingResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -2711,10 +2709,10 @@ func ApplyProductListing(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by ArchiveComponent.
+// The mutation executed by ArchiveComponent.
 const ArchiveComponent_Operation = `
 mutation ArchiveComponent ($id: ObjectIDFilterScalar) {
 	update_certification_project(id: $id, input: {project_status:"archived"}) {
@@ -2735,7 +2733,7 @@ func ArchiveComponent(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	id string,
-) (*ArchiveComponentResponse, error) {
+) (data_ *ArchiveComponentResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "ArchiveComponent",
 		Query:  ArchiveComponent_Operation,
@@ -2743,10 +2741,9 @@ func ArchiveComponent(
 			Id: id,
 		},
 	}
-	var err_ error
 
-	var data_ ArchiveComponentResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &ArchiveComponentResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -2754,10 +2751,10 @@ func ArchiveComponent(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by ComponentsForListing.
+// The query executed by ComponentsForListing.
 const ComponentsForListing_Operation = `
 query ComponentsForListing ($productID: ObjectIDFilterScalar, $page: Int!, $pageSize: Int!) {
 	find_product_listing_certification_projects(id: $productID, page: $page, page_size: $pageSize, filter: {project_status:{eq:"active"}}) {
@@ -2818,7 +2815,7 @@ func ComponentsForListing(
 	productID string,
 	page int,
 	pageSize int,
-) (*ComponentsForListingResponse, error) {
+) (data_ *ComponentsForListingResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "ComponentsForListing",
 		Query:  ComponentsForListing_Operation,
@@ -2828,10 +2825,9 @@ func ComponentsForListing(
 			PageSize:  pageSize,
 		},
 	}
-	var err_ error
 
-	var data_ ComponentsForListingResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &ComponentsForListingResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -2839,10 +2835,10 @@ func ComponentsForListing(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by DeleteProduct.
+// The mutation executed by DeleteProduct.
 const DeleteProduct_Operation = `
 mutation DeleteProduct ($id: ObjectIDFilterScalar) {
 	update_product_listing(id: $id, input: {deleted:true}) {
@@ -2863,7 +2859,7 @@ func DeleteProduct(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	id string,
-) (*DeleteProductResponse, error) {
+) (data_ *DeleteProductResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "DeleteProduct",
 		Query:  DeleteProduct_Operation,
@@ -2871,10 +2867,9 @@ func DeleteProduct(
 			Id: id,
 		},
 	}
-	var err_ error
 
-	var data_ DeleteProductResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &DeleteProductResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -2882,10 +2877,10 @@ func DeleteProduct(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by MyProducts.
+// The query executed by MyProducts.
 const MyProducts_Operation = `
 query MyProducts ($orgID: Int, $page: Int!, $pageSize: Int!) {
 	find_product_listings(filter: {and:[{org_id:{eq:$orgID}},{deleted:{eq:false}}]}, page_size: $pageSize, page: $page, sort_by: {field:"last_update_date",order:DESC}) {
@@ -2960,7 +2955,7 @@ func MyProducts(
 	orgID int,
 	page int,
 	pageSize int,
-) (*MyProductsResponse, error) {
+) (data_ *MyProductsResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "MyProducts",
 		Query:  MyProducts_Operation,
@@ -2970,10 +2965,9 @@ func MyProducts(
 			PageSize: pageSize,
 		},
 	}
-	var err_ error
 
-	var data_ MyProductsResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &MyProductsResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -2981,10 +2975,10 @@ func MyProducts(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by MyProjects.
+// The query executed by MyProjects.
 const MyProjects_Operation = `
 query MyProjects ($orgID: Int, $page: Int!, $pageSize: Int!) {
 	find_vendor_certification_projects_by_org_id(org_id: $orgID, page_size: $pageSize, page: $page, sort_by: {field:"last_update_date",order:DESC}, filter: {and:[{project_status:{ne:"archived"}}]}) {
@@ -3045,7 +3039,7 @@ func MyProjects(
 	orgID int,
 	page int,
 	pageSize int,
-) (*MyProjectsResponse, error) {
+) (data_ *MyProjectsResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "MyProjects",
 		Query:  MyProjects_Operation,
@@ -3055,10 +3049,9 @@ func MyProjects(
 			PageSize: pageSize,
 		},
 	}
-	var err_ error
 
-	var data_ MyProjectsResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &MyProjectsResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -3066,10 +3059,10 @@ func MyProjects(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by NewComponent.
+// The mutation executed by NewComponent.
 const NewComponent_Operation = `
 mutation NewComponent ($new: CertificationProjectInput!) {
 	create_certification_project(input: $new) {
@@ -3128,7 +3121,7 @@ func NewComponent(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	new *CertificationProjectInput,
-) (*NewComponentResponse, error) {
+) (data_ *NewComponentResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "NewComponent",
 		Query:  NewComponent_Operation,
@@ -3136,10 +3129,9 @@ func NewComponent(
 			New: new,
 		},
 	}
-	var err_ error
 
-	var data_ NewComponentResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &NewComponentResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -3147,10 +3139,10 @@ func NewComponent(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by NewProductListing.
+// The mutation executed by NewProductListing.
 const NewProductListing_Operation = `
 mutation NewProductListing ($new: ProductListingInput) {
 	create_product_listing(input: $new) {
@@ -3223,7 +3215,7 @@ func NewProductListing(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	new *ProductListingInput,
-) (*NewProductListingResponse, error) {
+) (data_ *NewProductListingResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "NewProductListing",
 		Query:  NewProductListing_Operation,
@@ -3231,10 +3223,9 @@ func NewProductListing(
 			New: new,
 		},
 	}
-	var err_ error
 
-	var data_ NewProductListingResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &NewProductListingResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -3242,10 +3233,10 @@ func NewProductListing(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by ProductByID.
+// The query executed by ProductByID.
 const ProductByID_Operation = `
 query ProductByID ($productID: ObjectIDFilterScalar) {
 	get_product_listing(id: $productID) {
@@ -3315,7 +3306,7 @@ func ProductByID(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	productID string,
-) (*ProductByIDResponse, error) {
+) (data_ *ProductByIDResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "ProductByID",
 		Query:  ProductByID_Operation,
@@ -3323,10 +3314,9 @@ func ProductByID(
 			ProductID: productID,
 		},
 	}
-	var err_ error
 
-	var data_ ProductByIDResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &ProductByIDResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -3334,10 +3324,10 @@ func ProductByID(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by SetComponentsForProduct.
+// The mutation executed by SetComponentsForProduct.
 const SetComponentsForProduct_Operation = `
 mutation SetComponentsForProduct ($productID: ObjectIDFilterScalar, $componentIDs: [ObjectID]) {
 	update_product_listing(id: $productID, input: {cert_projects:$componentIDs}) {
@@ -3359,7 +3349,7 @@ func SetComponentsForProduct(
 	client_ graphql.Client,
 	productID string,
 	componentIDs []string,
-) (*SetComponentsForProductResponse, error) {
+) (data_ *SetComponentsForProductResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "SetComponentsForProduct",
 		Query:  SetComponentsForProduct_Operation,
@@ -3368,10 +3358,9 @@ func SetComponentsForProduct(
 			ComponentIDs: componentIDs,
 		},
 	}
-	var err_ error
 
-	var data_ SetComponentsForProductResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &SetComponentsForProductResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -3379,5 +3368,5 @@ func SetComponentsForProduct(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
