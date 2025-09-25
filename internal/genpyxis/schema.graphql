@@ -1841,6 +1841,19 @@ type CertProjectContainer {
   repository: String
 
   """
+  The repository namespace is often the organization or user name that owns the repository.
+  This value is only editable when there are no published containers in this project.
+  It is only applicable for projects with \"rhcc\" or \"non_registry\" or \"marketplace_only\"
+  distribution methods.
+  
+  The namespace value is used to publish container content to place like:
+  registry.connect.redhat.com/<repository_namespace>/<repository_name>:tag
+  
+  The namespace is required for published projects.
+  """
+  repository_namespace: String
+
+  """
   The repository description is displayed on the container
   catalog repository overview page.
   """
@@ -2631,6 +2644,7 @@ input CertProjectContainerFilter {
   registry_override_instruct: StringFilter
   release_category: StringFilter
   repository: StringFilter
+  repository_namespace: StringFilter
   repository_description: StringFilter
   repository_name: StringFilter
   short_description: StringFilter
@@ -7066,6 +7080,19 @@ input CertProjectContainerInput {
   It is only applicable for projects with an 'external' distribution method.
   """
   repository: String
+
+  """
+  The repository namespace is often the organization or user name that owns the repository.
+  This value is only editable when there are no published containers in this project.
+  It is only applicable for projects with \"rhcc\" or \"non_registry\" or \"marketplace_only\"
+  distribution methods.
+  
+  The namespace value is used to publish container content to place like:
+  registry.connect.redhat.com/<repository_namespace>/<repository_name>:tag
+  
+  The namespace is required for published projects.
+  """
+  repository_namespace: String
 
   """
   The repository description is displayed on the container
