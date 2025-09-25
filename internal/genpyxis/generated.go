@@ -161,6 +161,16 @@ type CertProjectContainerInput struct {
 	// This field can only be edited when there are no published containers.
 	// It is only applicable for projects with an 'external' distribution method.
 	Repository string `json:"repository,omitempty"`
+	// The repository namespace is often the organization or user name that owns the repository.
+	// This value is only editable when there are no published containers in this project.
+	// It is only applicable for projects with \"rhcc\" or \"non_registry\" or \"marketplace_only\"
+	// distribution methods.
+	//
+	// The namespace value is used to publish container content to place like:
+	// registry.connect.redhat.com/<repository_namespace>/<repository_name>:tag
+	//
+	// The namespace is required for published projects.
+	Repository_namespace string `json:"repository_namespace,omitempty"`
 	// The repository description is displayed on the container
 	// catalog repository overview page.
 	Repository_description string `json:"repository_description,omitempty"`
@@ -238,6 +248,9 @@ func (v *CertProjectContainerInput) GetRelease_category() string { return v.Rele
 
 // GetRepository returns CertProjectContainerInput.Repository, and is useful for accessing the field via an interface.
 func (v *CertProjectContainerInput) GetRepository() string { return v.Repository }
+
+// GetRepository_namespace returns CertProjectContainerInput.Repository_namespace, and is useful for accessing the field via an interface.
+func (v *CertProjectContainerInput) GetRepository_namespace() string { return v.Repository_namespace }
 
 // GetRepository_description returns CertProjectContainerInput.Repository_description, and is useful for accessing the field via an interface.
 func (v *CertProjectContainerInput) GetRepository_description() string {
