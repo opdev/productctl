@@ -285,6 +285,9 @@ type Query {
   """Get all repositories belonging to product listing."""
   find_product_listing_repositories(id: ObjectIDFilterScalar, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ContainerRepositoryFilter): ContainerRepositoryPaginatedResponse
 
+  """Get all repositories belonging to vendor."""
+  find_repositories_by_vendor_id(id: ObjectIDFilterScalar, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ContainerRepositoryFilter): ContainerRepositoryPaginatedResponse
+
   """Get the certification project for a repository."""
   get_repository_project_certification_by_registry_path(registry: String, repository: String): CertificationProjectResponse
 
@@ -378,6 +381,12 @@ type Query {
 
   """Get product validations by product listing _id."""
   find_product_validations_by_product_listing_id(id: ObjectIDFilterScalar, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ProductValidationFilter): ProductValidationPaginatedResponse
+
+  """Get a product version."""
+  get_product_version(id: ObjectIDFilterScalar): ProductVersionResponse
+
+  """Get product versions by product listing _id."""
+  find_product_versions_by_product_listing_id(id: ObjectIDFilterScalar, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ProductVersionFilter): ProductVersionPaginatedResponse
 
   """Get a product listing."""
   product_listing(id: ObjectIDFilterScalar): ProductListingFederated
@@ -2055,7 +2064,7 @@ type ContainerVendor {
   label: String
 
   """A flag that determines if vendor label can be changed."""
-  label_locked: Boolean
+  label_locked: Boolean @deprecated(reason: "The field was deprecated and it is no longer used to \"lock\" vendor.label. The vendor label field was originally used as a namespace for container repositories. The namespace is now managed by certification projects using dedicated field certProject.container.repository_namespace.")
   logo_url: URI
   name: String
   object_type: String
@@ -2117,8 +2126,8 @@ type ContainerVendorEdges {
   """Get certification projects for a vendor by Company Org ID."""
   certification_projects(org_id: Int, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: CertificationProjectFilter): CertificationProjectPaginatedResponse
 
-  """Get the repositories for a vendor label."""
-  repositories(label: String, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ContainerRepositoryFilter): ContainerRepositoryPaginatedResponse
+  """Get all repositories belonging to vendor."""
+  repositories(id: ObjectIDFilterScalar, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ContainerRepositoryFilter): ContainerRepositoryPaginatedResponse
 }
 
 type ProductListingPaginatedResponse {
@@ -2473,6 +2482,9 @@ type ProductListingEdges {
 
   """Get product validations by product listing _id."""
   product_validations(id: ObjectIDFilterScalar, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ProductValidationFilter): ProductValidationPaginatedResponse
+
+  """Get product versions by product listing _id."""
+  product_versions(id: ObjectIDFilterScalar, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ProductVersionFilter): ProductVersionPaginatedResponse
 
   """Get all repositories belonging to product listing."""
   repositories(id: ObjectIDFilterScalar, sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: ContainerRepositoryFilter): ContainerRepositoryPaginatedResponse
@@ -2966,6 +2978,117 @@ input RedHatProductAffinityListFilter {
 
 input RedHatProductAffinityListIndexFilter {
   condition: RedHatProductAffinityFilter
+  index: Int
+}
+
+type ProductVersionPaginatedResponse {
+  data: [ProductVersion]
+  error: ResponseError
+  page: Int
+  page_size: Int
+  total: Int
+}
+
+"""
+ProductVersion defines which Red Hat product versions are supported by given product version.
+"""
+type ProductVersion {
+  """Product Version name."""
+  product_version: String
+
+  """Product Listing Identifier."""
+  product_listing: ObjectID
+
+  """
+  List of Red Hat products and its versions partner product claims to support.
+  """
+  redhat_affinity: [RedHatAffinity]
+
+  """MongoDB unique _id"""
+  _id: ObjectID
+
+  """
+  Red Hat Org ID / account_id from Red Hat SSO. Also corresponds to company_org_id in Red Hat Connect.
+  """
+  org_id: Int
+
+  """
+  The date when the entry was created. Value is created automatically on creation.
+  """
+  creation_date: DateTime
+
+  """The date when the entry was last updated."""
+  last_update_date: DateTime
+}
+
+"""
+Stores data about single Red Hat product and its versions Product Version claims to support.
+"""
+type RedHatAffinity {
+  """Red Hat product name."""
+  product_name: String
+
+  """Flag to signalize support for future versions of the Red Hat product."""
+  support_future_versions: Boolean
+
+  """List of supported versions of the Red Hat product."""
+  versions: [String]
+}
+
+input ProductVersionFilter {
+  product_version: StringFilter
+  product_listing: ObjectIDFilter
+  redhat_affinity_size: IntFilter
+  redhat_affinity_elemMatch: RedHatAffinityElemMatchFilter
+  redhat_affinity: RedHatAffinityListFilter
+  _id: ObjectIDFilter
+  org_id: IntFilter
+  creation_date: DateTimeFilter
+  last_update_date: DateTimeFilter
+  eq: NULL
+  ne: NULL
+  and: [ProductVersionFilter]
+  or: [ProductVersionFilter]
+  nor: [ProductVersionFilter]
+  not: ProductVersionFilter
+}
+
+input RedHatAffinityElemMatchFilter {
+  and: [RedHatAffinityFilter]
+  or: [RedHatAffinityFilter]
+  nor: [RedHatAffinityFilter]
+  not: RedHatAffinityFilter
+}
+
+input RedHatAffinityFilter {
+  product_name: StringFilter
+  support_future_versions: BooleanFilter
+  versions_size: IntFilter
+  versions: StringListFilter
+  eq: NULL
+  ne: NULL
+  and: [RedHatAffinityFilter]
+  or: [RedHatAffinityFilter]
+  nor: [RedHatAffinityFilter]
+  not: RedHatAffinityFilter
+}
+
+input RedHatAffinityListFilter {
+  list_index_filter: RedHatAffinityListIndexFilter
+  product_name: StringFilter
+  support_future_versions: BooleanFilter
+  versions_size: IntFilter
+  versions: StringListFilter
+  eq: NULL
+  ne: NULL
+  and: [RedHatAffinityFilter]
+  or: [RedHatAffinityFilter]
+  nor: [RedHatAffinityFilter]
+  not: RedHatAffinityFilter
+}
+
+input RedHatAffinityListIndexFilter {
+  condition: RedHatAffinityFilter
   index: Int
 }
 
@@ -5921,6 +6044,11 @@ type ProductValidationResponse {
   error: ResponseError
 }
 
+type ProductVersionResponse {
+  data: ProductVersion
+  error: ResponseError
+}
+
 """
 Product listings define a marketing page in the Ecosystem Catalog. It allows you to group repos and showcase what they accomplish together as an application. In the case of operators, your CSV file populates OperatorHub, which can only be viewed in cluster through OpenShift. Your product listing is publicly visible in the Ecosystem Catalog so anyone can know that it is offered.
 """
@@ -6331,6 +6459,18 @@ type Mutation {
 
   """Replace product validation."""
   replace_product_validation(id: ObjectIDFilterScalar, input: ProductValidationInput): ProductValidationResponse
+
+  """Create product version."""
+  create_product_version(input: ProductVersionInput): ProductVersionResponse
+
+  """Update product version."""
+  update_product_version(id: ObjectIDFilterScalar, input: ProductVersionInput): ProductVersionResponse
+
+  """Replace product version."""
+  replace_product_version(id: ObjectIDFilterScalar, input: ProductVersionInput): ProductVersionResponse
+
+  """Delete product version."""
+  delete_product_version(id: ObjectIDFilterScalar, input: ProductVersionInput): ProductVersionResponse
 
   """Create an API key."""
   create_api_key(input: ApiKeyOrgIDWithDescriptionRequestInput): ApiKeyRespResponse
@@ -6843,9 +6983,6 @@ input ContainerVendorInput {
   """The industry / vertical the vendor belongs to."""
   industries: [String]
   label: String
-
-  """A flag that determines if vendor label can be changed."""
-  label_locked: Boolean
   logo_url: URI
   name: String
   object_type: String
@@ -7606,6 +7743,52 @@ input RedHatProductVersionInput {
 
   """Red Hat product version name."""
   name: String
+}
+
+"""
+ProductVersion defines which Red Hat product versions are supported by given product version.
+"""
+input ProductVersionInput {
+  """Product Version name."""
+  product_version: String
+
+  """Product Listing Identifier."""
+  product_listing: ObjectID
+
+  """
+  List of Red Hat products and its versions partner product claims to support.
+  """
+  redhat_affinity: [RedHatAffinityInput]
+
+  """MongoDB unique _id"""
+  _id: ObjectID
+
+  """
+  Red Hat Org ID / account_id from Red Hat SSO. Also corresponds to company_org_id in Red Hat Connect.
+  """
+  org_id: Int
+
+  """
+  The date when the entry was created. Value is created automatically on creation.
+  """
+  creation_date: DateTime
+
+  """The date when the entry was last updated."""
+  last_update_date: DateTime
+}
+
+"""
+Stores data about single Red Hat product and its versions Product Version claims to support.
+"""
+input RedHatAffinityInput {
+  """Red Hat product name."""
+  product_name: String
+
+  """Flag to signalize support for future versions of the Red Hat product."""
+  support_future_versions: Boolean
+
+  """List of supported versions of the Red Hat product."""
+  versions: [String]
 }
 
 type ApiKeyRespResponse {
