@@ -277,6 +277,11 @@ type CertProjectHelmChartInput struct {
 	Chart_name string `json:"chart_name,omitempty"`
 	// URL to the externally distributed Helm Chart repository. This is not used if the chart is distributed via Red Hat.
 	Repository string `json:"repository,omitempty"`
+	// The namespace is often the organization or user name that owns the chart.
+	// This value is only editable when the project is not published.
+	//
+	// The namespace is required for published projects.
+	Namespace string `json:"namespace,omitempty"`
 	// Instructions for users to access an externally distributed Helm Chart.
 	Distribution_instructions string `json:"distribution_instructions,omitempty"`
 	// Base64 encoded PGP public key. Used to sign result submissions.
@@ -303,6 +308,9 @@ func (v *CertProjectHelmChartInput) GetChart_name() string { return v.Chart_name
 
 // GetRepository returns CertProjectHelmChartInput.Repository, and is useful for accessing the field via an interface.
 func (v *CertProjectHelmChartInput) GetRepository() string { return v.Repository }
+
+// GetNamespace returns CertProjectHelmChartInput.Namespace, and is useful for accessing the field via an interface.
+func (v *CertProjectHelmChartInput) GetNamespace() string { return v.Namespace }
 
 // GetDistribution_instructions returns CertProjectHelmChartInput.Distribution_instructions, and is useful for accessing the field via an interface.
 func (v *CertProjectHelmChartInput) GetDistribution_instructions() string {
