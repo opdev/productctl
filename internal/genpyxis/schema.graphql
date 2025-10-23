@@ -1932,6 +1932,14 @@ type CertProjectHelmChart {
   """
   repository: URI
 
+  """
+  The namespace is often the organization or user name that owns the chart.
+  This value is only editable when the project is not published.
+  
+  The namespace is required for published projects.
+  """
+  namespace: String
+
   """Instructions for users to access an externally distributed Helm Chart."""
   distribution_instructions: String
 
@@ -2693,6 +2701,7 @@ input CertProjectHelmChartFilter {
   distribution_method: StringFilter
   chart_name: StringFilter
   repository: URIFilter
+  namespace: StringFilter
   distribution_instructions: StringFilter
   public_pgp_key: StringFilter
   github_pull_request: URIFilter
@@ -7280,6 +7289,14 @@ input CertProjectHelmChartInput {
   URL to the externally distributed Helm Chart repository. This is not used if the chart is distributed via Red Hat.
   """
   repository: URI
+
+  """
+  The namespace is often the organization or user name that owns the chart.
+  This value is only editable when the project is not published.
+  
+  The namespace is required for published projects.
+  """
+  namespace: String
 
   """Instructions for users to access an externally distributed Helm Chart."""
   distribution_instructions: String
