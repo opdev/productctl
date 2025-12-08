@@ -551,7 +551,9 @@ type ContainerImage {
   """
   sum_layer_size_bytes: Int64
 
-  """Field for multiarch primary key"""
+  """
+  The content identifier (sha256 digest) of the final, topmost layer in the container image. This ID corresponds to the layer at the highest index within the parsed_data.layers array.
+  """
   top_layer_id: String
 
   """
@@ -659,7 +661,9 @@ type ParsedData {
   image_id: String
   labels: [Label]
 
-  """Layer digests from the image."""
+  """
+  An ordered list of container layers extracted from the image manifest. Layers are sorted from base layer (index 0) to top layer.
+  """
   layers: [String]
   os: String
   ports: String
@@ -670,7 +674,9 @@ type ParsedData {
   """Size of this image as reported by image metadata."""
   size: Int64
 
-  """Information about uncompressed layer sizes."""
+  """
+  Information about uncompressed layer sizes. The ordered list starts from top layer to base layer.
+  """
   uncompressed_layer_sizes: [UncompressedLayerSize]
 
   """Uncompressed images size in bytes (sum of uncompressed layers size)."""
@@ -6584,7 +6590,9 @@ input ContainerImageInput {
   """
   sum_layer_size_bytes: Int64
 
-  """Field for multiarch primary key"""
+  """
+  The content identifier (sha256 digest) of the final, topmost layer in the container image. This ID corresponds to the layer at the highest index within the parsed_data.layers array.
+  """
   top_layer_id: String
 
   """
@@ -6682,7 +6690,9 @@ input ParsedDataInput {
   image_id: String
   labels: [LabelInput]
 
-  """Layer digests from the image."""
+  """
+  An ordered list of container layers extracted from the image manifest. Layers are sorted from base layer (index 0) to top layer.
+  """
   layers: [String]
   os: String
   ports: String
@@ -6693,7 +6703,9 @@ input ParsedDataInput {
   """Size of this image as reported by image metadata."""
   size: Int64
 
-  """Information about uncompressed layer sizes."""
+  """
+  Information about uncompressed layer sizes. The ordered list starts from top layer to base layer.
+  """
   uncompressed_layer_sizes: [UncompressedLayerSizeInput]
 
   """Uncompressed images size in bytes (sum of uncompressed layers size)."""
