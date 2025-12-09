@@ -5,8 +5,8 @@ go 1.24.0
 require (
 	github.com/Khan/genqlient v0.8.1
 	github.com/invopop/jsonschema v0.13.0
-	github.com/onsi/ginkgo/v2 v2.27.2
-	github.com/onsi/gomega v1.38.2
+	github.com/onsi/ginkgo/v2 v2.27.3
+	github.com/onsi/gomega v1.38.3
 	github.com/opdev/discover-workload v0.0.0-20250613205600-4f6ee215f625
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.10
