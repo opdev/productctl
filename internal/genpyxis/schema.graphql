@@ -406,6 +406,12 @@ type Query {
   """Get a tool by ID."""
   get_tool(id: ObjectIDFilterScalar): ToolResponse
 
+  """Get a partner solution production."""
+  get_partner_solution_production(id: ObjectIDFilterScalar): PartnerSolutionProductionResponse
+
+  """Get all partner solution productions."""
+  find_partner_solution_production(sort_by: [SortBy], page: Int = 0, page_size: Int = 50, filter: PartnerSolutionProductionFilter): PartnerSolutionProductionPaginatedResponse
+
   """Access Pyxis Central Schema field metadata."""
   get_field_metadata(type_name: String, field_name: String = ""): FieldMetadataResponse
   _service: _Service!
@@ -6345,6 +6351,635 @@ input ToolFilter {
 type ToolResponse {
   data: Tool
   error: ResponseError
+}
+
+type PartnerSolutionProductionResponse {
+  data: PartnerSolutionProduction
+  error: ResponseError
+}
+
+"""
+Partner Solution Production stores the snapshot of the Partner Solution Draft from the moment it was approved. When published, this version is public-facing and should contain only valid data.
+"""
+type PartnerSolutionProduction {
+  """ID of the draft version of this Partner Solution"""
+  draft_id: ObjectID
+
+  """Controls visibility of the Partner Solution Production version"""
+  published: Boolean
+
+  """Checksum of the 'solution_content'"""
+  solution_content_hash: String
+
+  """Content of the Solution"""
+  solution_content: PartnerSolution
+
+  """MongoDB unique _id"""
+  _id: ObjectID
+
+  """
+  Red Hat Org ID / account_id from Red Hat SSO. Also corresponds to company_org_id in Red Hat Connect.
+  """
+  org_id: Int
+
+  """
+  The date when the entry was created. Value is created automatically on creation.
+  """
+  creation_date: DateTime
+
+  """The date when the entry was last updated."""
+  last_update_date: DateTime
+}
+
+"""
+Content of the base Partner Solution shared between Draft and Production version
+"""
+type PartnerSolution {
+  """Name of the Partner Solution"""
+  name: String
+
+  """Type of the Partner Solution"""
+  type: String
+
+  """Short description of the Partner Solution"""
+  short_description: String
+
+  """Summary of the Partner Solution"""
+  summary: String
+
+  """Business problem description the Partner Solution claims to solve"""
+  business_problem: String
+
+  """Partner success metric for the Solution"""
+  success_metric: String
+
+  """Target industry for the Partner Solution"""
+  industry: String
+
+  """Brief introduction of the Solution"""
+  solution_brief: SolutionBrief
+
+  """Categories the Partner Solution falls into"""
+  categories: [String]
+
+  """Geographical regions for which the Partner Solution is available"""
+  geo_regions: [String]
+
+  """Red Hat platforms the Solution is intended for"""
+  redhat_platforms: [String]
+
+  """Red Hat products the Solution is using"""
+  redhat_products: [String]
+
+  """Partner Solution information resources"""
+  resources: [SolutionResource]
+
+  """Partners participating in the Solution"""
+  companies: [SolutionPartner]
+
+  """Media resources available for the Solution"""
+  media: [SolutionMedia]
+
+  """Highlights of the Partner Solution"""
+  highlights: [SolutionHighlight]
+
+  """Products linked to the Solution"""
+  linked_products: [LinkedProduct]
+
+  """Quotes mentioning the Solution"""
+  quotes: [SolutionQuote]
+
+  """Frequently asked questions"""
+  faq: [SolutionFaq]
+
+  """Next steps to use the Solution"""
+  next_steps: [SolutionNextStep]
+}
+
+"""Brief of the Partner Solution"""
+type SolutionBrief {
+  """Name of the Partner Solution brief"""
+  name: String
+
+  """The URL to the Partner Solution brief"""
+  link: URI
+}
+
+"""Information resource for the Partner Solution"""
+type SolutionResource {
+  """Name of the Partner Solution resource"""
+  name: String
+
+  """Type of the Partner Solution resource"""
+  type: String
+
+  """Description of the resource"""
+  description: String
+
+  """Language of the Solution resource"""
+  language: String
+
+  """Catalog order of the Solution resource"""
+  catalog_order: Int
+
+  """The URL to the Partner Solution resource"""
+  link: URI
+}
+
+"""Partner participating on the Solution"""
+type SolutionPartner {
+  """Partner company identifier in EDH"""
+  id: String
+
+  """Name of the partner company"""
+  company_name: String
+
+  """Flag to mark primary partner for the Solution"""
+  primary: Boolean
+}
+
+"""Media resource for the Partner Solution"""
+type SolutionMedia {
+  """Name of the Partner Solution media"""
+  name: String
+
+  """Type of the Partner Solution media"""
+  type: String
+
+  """Description of the media"""
+  description: String
+
+  """Language of the Solution resource"""
+  language: String
+
+  """Catalog order of the Solution resource"""
+  catalog_order: Int
+
+  """The URL to the Partner Solution resource"""
+  link: URI
+}
+
+"""Highlight of the Partner Solution"""
+type SolutionHighlight {
+  """Name of the Partner Solution highlight"""
+  name: String
+
+  """Highlight content"""
+  description: String
+
+  """Catalog order of the Solution highlight"""
+  catalog_order: Int
+}
+
+"""Product linked to the Solution"""
+type LinkedProduct {
+  """Identifier of the product in the source system"""
+  id: String
+
+  """Name of the product"""
+  name: String
+
+  """Catalog view URI"""
+  view_uri: URI
+}
+
+"""Quotes mentioning the Solution"""
+type SolutionQuote {
+  """Name of the quote"""
+  name: String
+
+  """Text of the quote"""
+  text: String
+
+  """Company behind the quote"""
+  company: String
+
+  """Job role behind the quote"""
+  job_role: String
+}
+
+"""Frequently asked question"""
+type SolutionFaq {
+  """Faq question"""
+  question: String
+
+  """Faq answer"""
+  answer: String
+
+  """Catalog order of the Solution faq"""
+  catalog_order: Int
+}
+
+"""Suggested action to use the Solution"""
+type SolutionNextStep {
+  """Next step title"""
+  title: String
+
+  """Next step description"""
+  description: String
+
+  """Next step button text"""
+  button_text: String
+
+  """Button URI"""
+  link: URI
+}
+
+type PartnerSolutionProductionPaginatedResponse {
+  data: [PartnerSolutionProduction]
+  error: ResponseError
+  page: Int
+  page_size: Int
+  total: Int
+}
+
+input PartnerSolutionProductionFilter {
+  draft_id: ObjectIDFilter
+  published: BooleanFilter
+  solution_content_hash: StringFilter
+  solution_content: PartnerSolutionFilter
+  _id: ObjectIDFilter
+  org_id: IntFilter
+  creation_date: DateTimeFilter
+  last_update_date: DateTimeFilter
+  eq: NULL
+  ne: NULL
+  and: [PartnerSolutionProductionFilter]
+  or: [PartnerSolutionProductionFilter]
+  nor: [PartnerSolutionProductionFilter]
+  not: PartnerSolutionProductionFilter
+}
+
+input PartnerSolutionFilter {
+  name: StringFilter
+  type: StringFilter
+  short_description: StringFilter
+  summary: StringFilter
+  business_problem: StringFilter
+  success_metric: StringFilter
+  industry: StringFilter
+  solution_brief: SolutionBriefFilter
+  categories_size: IntFilter
+  categories: StringListFilter
+  geo_regions_size: IntFilter
+  geo_regions: StringListFilter
+  redhat_platforms_size: IntFilter
+  redhat_platforms: StringListFilter
+  redhat_products_size: IntFilter
+  redhat_products: StringListFilter
+  resources_size: IntFilter
+  resources_elemMatch: SolutionResourceElemMatchFilter
+  resources: SolutionResourceListFilter
+  companies_size: IntFilter
+  companies_elemMatch: SolutionPartnerElemMatchFilter
+  companies: SolutionPartnerListFilter
+  media_size: IntFilter
+  media_elemMatch: SolutionMediaElemMatchFilter
+  media: SolutionMediaListFilter
+  highlights_size: IntFilter
+  highlights_elemMatch: SolutionHighlightElemMatchFilter
+  highlights: SolutionHighlightListFilter
+  linked_products_size: IntFilter
+  linked_products_elemMatch: LinkedProductElemMatchFilter
+  linked_products: LinkedProductListFilter
+  quotes_size: IntFilter
+  quotes_elemMatch: SolutionQuoteElemMatchFilter
+  quotes: SolutionQuoteListFilter
+  faq_size: IntFilter
+  faq_elemMatch: SolutionFaqElemMatchFilter
+  faq: SolutionFaqListFilter
+  next_steps_size: IntFilter
+  next_steps_elemMatch: SolutionNextStepElemMatchFilter
+  next_steps: SolutionNextStepListFilter
+  eq: NULL
+  ne: NULL
+  and: [PartnerSolutionFilter]
+  or: [PartnerSolutionFilter]
+  nor: [PartnerSolutionFilter]
+  not: PartnerSolutionFilter
+}
+
+input SolutionBriefFilter {
+  name: StringFilter
+  link: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionBriefFilter]
+  or: [SolutionBriefFilter]
+  nor: [SolutionBriefFilter]
+  not: SolutionBriefFilter
+}
+
+input SolutionResourceElemMatchFilter {
+  and: [SolutionResourceFilter]
+  or: [SolutionResourceFilter]
+  nor: [SolutionResourceFilter]
+  not: SolutionResourceFilter
+}
+
+input SolutionResourceFilter {
+  name: StringFilter
+  type: StringFilter
+  description: StringFilter
+  language: StringFilter
+  catalog_order: IntFilter
+  link: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionResourceFilter]
+  or: [SolutionResourceFilter]
+  nor: [SolutionResourceFilter]
+  not: SolutionResourceFilter
+}
+
+input SolutionResourceListFilter {
+  list_index_filter: SolutionResourceListIndexFilter
+  name: StringFilter
+  type: StringFilter
+  description: StringFilter
+  language: StringFilter
+  catalog_order: IntFilter
+  link: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionResourceFilter]
+  or: [SolutionResourceFilter]
+  nor: [SolutionResourceFilter]
+  not: SolutionResourceFilter
+}
+
+input SolutionResourceListIndexFilter {
+  condition: SolutionResourceFilter
+  index: Int
+}
+
+input SolutionPartnerElemMatchFilter {
+  and: [SolutionPartnerFilter]
+  or: [SolutionPartnerFilter]
+  nor: [SolutionPartnerFilter]
+  not: SolutionPartnerFilter
+}
+
+input SolutionPartnerFilter {
+  id: StringFilter
+  company_name: StringFilter
+  primary: BooleanFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionPartnerFilter]
+  or: [SolutionPartnerFilter]
+  nor: [SolutionPartnerFilter]
+  not: SolutionPartnerFilter
+}
+
+input SolutionPartnerListFilter {
+  list_index_filter: SolutionPartnerListIndexFilter
+  id: StringFilter
+  company_name: StringFilter
+  primary: BooleanFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionPartnerFilter]
+  or: [SolutionPartnerFilter]
+  nor: [SolutionPartnerFilter]
+  not: SolutionPartnerFilter
+}
+
+input SolutionPartnerListIndexFilter {
+  condition: SolutionPartnerFilter
+  index: Int
+}
+
+input SolutionMediaElemMatchFilter {
+  and: [SolutionMediaFilter]
+  or: [SolutionMediaFilter]
+  nor: [SolutionMediaFilter]
+  not: SolutionMediaFilter
+}
+
+input SolutionMediaFilter {
+  name: StringFilter
+  type: StringFilter
+  description: StringFilter
+  language: StringFilter
+  catalog_order: IntFilter
+  link: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionMediaFilter]
+  or: [SolutionMediaFilter]
+  nor: [SolutionMediaFilter]
+  not: SolutionMediaFilter
+}
+
+input SolutionMediaListFilter {
+  list_index_filter: SolutionMediaListIndexFilter
+  name: StringFilter
+  type: StringFilter
+  description: StringFilter
+  language: StringFilter
+  catalog_order: IntFilter
+  link: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionMediaFilter]
+  or: [SolutionMediaFilter]
+  nor: [SolutionMediaFilter]
+  not: SolutionMediaFilter
+}
+
+input SolutionMediaListIndexFilter {
+  condition: SolutionMediaFilter
+  index: Int
+}
+
+input SolutionHighlightElemMatchFilter {
+  and: [SolutionHighlightFilter]
+  or: [SolutionHighlightFilter]
+  nor: [SolutionHighlightFilter]
+  not: SolutionHighlightFilter
+}
+
+input SolutionHighlightFilter {
+  name: StringFilter
+  description: StringFilter
+  catalog_order: IntFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionHighlightFilter]
+  or: [SolutionHighlightFilter]
+  nor: [SolutionHighlightFilter]
+  not: SolutionHighlightFilter
+}
+
+input SolutionHighlightListFilter {
+  list_index_filter: SolutionHighlightListIndexFilter
+  name: StringFilter
+  description: StringFilter
+  catalog_order: IntFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionHighlightFilter]
+  or: [SolutionHighlightFilter]
+  nor: [SolutionHighlightFilter]
+  not: SolutionHighlightFilter
+}
+
+input SolutionHighlightListIndexFilter {
+  condition: SolutionHighlightFilter
+  index: Int
+}
+
+input LinkedProductElemMatchFilter {
+  and: [LinkedProductFilter]
+  or: [LinkedProductFilter]
+  nor: [LinkedProductFilter]
+  not: LinkedProductFilter
+}
+
+input LinkedProductFilter {
+  id: StringFilter
+  name: StringFilter
+  view_uri: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [LinkedProductFilter]
+  or: [LinkedProductFilter]
+  nor: [LinkedProductFilter]
+  not: LinkedProductFilter
+}
+
+input LinkedProductListFilter {
+  list_index_filter: LinkedProductListIndexFilter
+  id: StringFilter
+  name: StringFilter
+  view_uri: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [LinkedProductFilter]
+  or: [LinkedProductFilter]
+  nor: [LinkedProductFilter]
+  not: LinkedProductFilter
+}
+
+input LinkedProductListIndexFilter {
+  condition: LinkedProductFilter
+  index: Int
+}
+
+input SolutionQuoteElemMatchFilter {
+  and: [SolutionQuoteFilter]
+  or: [SolutionQuoteFilter]
+  nor: [SolutionQuoteFilter]
+  not: SolutionQuoteFilter
+}
+
+input SolutionQuoteFilter {
+  name: StringFilter
+  text: StringFilter
+  company: StringFilter
+  job_role: StringFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionQuoteFilter]
+  or: [SolutionQuoteFilter]
+  nor: [SolutionQuoteFilter]
+  not: SolutionQuoteFilter
+}
+
+input SolutionQuoteListFilter {
+  list_index_filter: SolutionQuoteListIndexFilter
+  name: StringFilter
+  text: StringFilter
+  company: StringFilter
+  job_role: StringFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionQuoteFilter]
+  or: [SolutionQuoteFilter]
+  nor: [SolutionQuoteFilter]
+  not: SolutionQuoteFilter
+}
+
+input SolutionQuoteListIndexFilter {
+  condition: SolutionQuoteFilter
+  index: Int
+}
+
+input SolutionFaqElemMatchFilter {
+  and: [SolutionFaqFilter]
+  or: [SolutionFaqFilter]
+  nor: [SolutionFaqFilter]
+  not: SolutionFaqFilter
+}
+
+input SolutionFaqFilter {
+  question: StringFilter
+  answer: StringFilter
+  catalog_order: IntFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionFaqFilter]
+  or: [SolutionFaqFilter]
+  nor: [SolutionFaqFilter]
+  not: SolutionFaqFilter
+}
+
+input SolutionFaqListFilter {
+  list_index_filter: SolutionFaqListIndexFilter
+  question: StringFilter
+  answer: StringFilter
+  catalog_order: IntFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionFaqFilter]
+  or: [SolutionFaqFilter]
+  nor: [SolutionFaqFilter]
+  not: SolutionFaqFilter
+}
+
+input SolutionFaqListIndexFilter {
+  condition: SolutionFaqFilter
+  index: Int
+}
+
+input SolutionNextStepElemMatchFilter {
+  and: [SolutionNextStepFilter]
+  or: [SolutionNextStepFilter]
+  nor: [SolutionNextStepFilter]
+  not: SolutionNextStepFilter
+}
+
+input SolutionNextStepFilter {
+  title: StringFilter
+  description: StringFilter
+  button_text: StringFilter
+  link: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionNextStepFilter]
+  or: [SolutionNextStepFilter]
+  nor: [SolutionNextStepFilter]
+  not: SolutionNextStepFilter
+}
+
+input SolutionNextStepListFilter {
+  list_index_filter: SolutionNextStepListIndexFilter
+  title: StringFilter
+  description: StringFilter
+  button_text: StringFilter
+  link: URIFilter
+  eq: NULL
+  ne: NULL
+  and: [SolutionNextStepFilter]
+  or: [SolutionNextStepFilter]
+  nor: [SolutionNextStepFilter]
+  not: SolutionNextStepFilter
+}
+
+input SolutionNextStepListIndexFilter {
+  condition: SolutionNextStepFilter
+  index: Int
 }
 
 type FieldMetadataResponse {
