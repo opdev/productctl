@@ -28,6 +28,7 @@ jobs:
 
       - name: Set up Python and uv
         uses: ./.github/actions/setup-python-uv
+        if: ${{ steps.check_pr.outputs.pr_count == '0' }}
 
       - name: Set up Go
         uses: actions/setup-go@v5
