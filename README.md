@@ -1,3 +1,5 @@
+**Deprecation Notice**: This project will be archived by 2026-02.
+
 # productctl
 
 A power tool for [Red Hat Software Certification
