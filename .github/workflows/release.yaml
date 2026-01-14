@@ -19,7 +19,7 @@ jobs:
         - ubuntu-latest # amd64
         - ubuntu-22.04-arm # arm64
         - macos-latest # arm64
-        - macos-13 # amd64
+        - macos-15-intel # amd64
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
