@@ -6378,11 +6378,6 @@ type PartnerSolutionProduction {
   _id: ObjectID
 
   """
-  Red Hat Org ID / account_id from Red Hat SSO. Also corresponds to company_org_id in Red Hat Connect.
-  """
-  org_id: Int
-
-  """
   The date when the entry was created. Value is created automatically on creation.
   """
   creation_date: DateTime
@@ -6496,6 +6491,12 @@ type SolutionPartner {
 
   """Flag to mark primary partner for the Solution"""
   primary: Boolean
+
+  """Flag to mark whether partner is focused."""
+  focus_partner: Boolean
+
+  """Partner logo uri."""
+  logo_uri: URI
 }
 
 """Media resource for the Partner Solution"""
@@ -6599,7 +6600,6 @@ input PartnerSolutionProductionFilter {
   solution_content_hash: StringFilter
   solution_content: PartnerSolutionFilter
   _id: ObjectIDFilter
-  org_id: IntFilter
   creation_date: DateTimeFilter
   last_update_date: DateTimeFilter
   eq: NULL
@@ -6724,6 +6724,8 @@ input SolutionPartnerFilter {
   id: StringFilter
   company_name: StringFilter
   primary: BooleanFilter
+  focus_partner: BooleanFilter
+  logo_uri: URIFilter
   eq: NULL
   ne: NULL
   and: [SolutionPartnerFilter]
@@ -6737,6 +6739,8 @@ input SolutionPartnerListFilter {
   id: StringFilter
   company_name: StringFilter
   primary: BooleanFilter
+  focus_partner: BooleanFilter
+  logo_uri: URIFilter
   eq: NULL
   ne: NULL
   and: [SolutionPartnerFilter]
