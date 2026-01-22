@@ -1656,8 +1656,8 @@ type ContainerRepositoryEdges {
   """Get a repository by registry and path (product line/image name)."""
   replaced_by_repository(registry: String, repository: String): ContainerRepositoryResponse
 
-  """Get a vendor by label."""
-  vendor(label: String): ContainerVendorResponse
+  """Get the vendor for a repository."""
+  vendor(registry: String, repository: String): ContainerVendorResponse
 }
 
 type CertificationProjectResponse {
@@ -6368,6 +6368,9 @@ type PartnerSolutionProduction {
   """Controls visibility of the Partner Solution Production version"""
   published: Boolean
 
+  """Signalize priority in Catalog presentation"""
+  featured_solution: Boolean
+
   """Checksum of the 'solution_content'"""
   solution_content_hash: String
 
@@ -6597,6 +6600,7 @@ type PartnerSolutionProductionPaginatedResponse {
 input PartnerSolutionProductionFilter {
   draft_id: ObjectIDFilter
   published: BooleanFilter
+  featured_solution: BooleanFilter
   solution_content_hash: StringFilter
   solution_content: PartnerSolutionFilter
   _id: ObjectIDFilter
